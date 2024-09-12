@@ -1,0 +1,73 @@
+<app-back-button></app-back-button>
+<div *ngIf="!loading" nz-row nzJustify="center">
+    <div nz-col nzLg="12" nzSpan="20" >
+  
+      <h1 nz-typography>
+        Registrar Difusión
+      </h1>
+  
+      <form nz-form nzLayout="vertical" [formGroup]="form" autocomplete="off">
+        <div formGroupName="Tema">
+
+          <nz-form-item>
+            <nz-form-label nzRequired>Tema</nz-form-label>
+            <nz-form-control>
+              <input nz-input formControlName="Tema" name="Tema" />
+            </nz-form-control>
+          </nz-form-item>
+  
+          <nz-form-item>
+            <nz-form-label nzRequired>Descripcion</nz-form-label>
+            <nz-form-control>
+              <textarea [nzAutosize]="{ minRows: 3, maxRows: 4 }" rows="3" nz-input formControlName="Descripcion"
+                        name="Descripcion"></textarea>
+            </nz-form-control>
+          </nz-form-item>
+        
+          <nz-form-item>
+            <nz-form-label nzRequired >Archivos</nz-form-label>
+                <nz-upload  [nzDisabled]="disable" nzType="drag" [nzLimit]="archPermitidos" [nzBeforeUpload]="beforeUpload" [nzMultiple]="true" nzAccept="image/png, image/jpeg, image/jpg">
+                    <p class="ant-upload-drag-icon">
+                        <i nz-icon nzType="inbox"></i>
+                    </p>
+                    <p class="ant-upload-text">Selecciona ó arrastra y suelta tus archivos es esta zona</p>
+                    <p class="ant-upload-hint">
+                    Solo se permiten {{ this.archPermitidos }} archivos
+                    </p>
+                </nz-upload>
+          </nz-form-item>
+
+          <!-- lista de archivos cargados -->
+          <nz-form-item *ngIf="archivos.length != 0">
+              <ul nz-list [nzDataSource]="archivos" nzBordered nzSize="large">
+                <li nz-list-item *ngFor="let item of archivos; index as i" nzNoFlex>
+                  <ul nz-list-item-actions>
+                    <nz-list-item-action>
+                      <a nzDanger (click)="quitarArchivo(i)"><i nz-icon nzType="delete" nzTheme="outline"></i></a>
+                    </nz-list-item-action>
+                  </ul>
+                  {{ item?.name }}
+                </li>
+              </ul>
+          </nz-form-item>
+          <!-- fin lista de archivos cargados -->
+        </div>
+
+        <nz-form-item>
+          <nz-form-label nzRequired>Fecha</nz-form-label>
+          <nz-date-picker formControlName="Fecha" nzFormat="yyyy-MM-dd" [nzDisabledDate]="disabledDate"
+                          >
+          </nz-date-picker>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control [nzSpan]="12">
+            <button nz-button nzType="primary" (click)="submitForm()">Registrar</button>
+          </nz-form-control>
+        </nz-form-item>
+        
+      </form>
+  
+    </div>
+  </div>
+  

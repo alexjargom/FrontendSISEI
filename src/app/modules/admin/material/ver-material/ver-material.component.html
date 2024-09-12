@@ -1,0 +1,12 @@
+<app-back-button></app-back-button>
+<div *ngIf="actual.Tipo == tipos.video" class="vista">
+    <vg-player>
+        <video [vgMedia]="$any(media)" #media id="singleVideo" preload="auto" controls>
+            <source [src]="actual.Archivo" type="video/mp4">
+        </video>
+    </vg-player>
+</div>
+ <div *ngIf="actual.Tipo == tipos.pdf || actual.Tipo == tipos.txt" class="vista">
+    <ngx-doc-viewer [url]="actual.Archivo" [viewer]="viewer" class="viewer" style="height: 100%;">
+    </ngx-doc-viewer>
+ </div>

@@ -1,0 +1,102 @@
+<div *ngIf="!isAdmin && !loading">
+  <div nz-row *ngIf="!loading">
+    <p style="text-align: justify;">En este apartado se deberá cargar en formato JPG (carteles, banners, trípticos, códigos, fotografías) la documentación que muestre evidencia de la difusión realizada a las servidoras y servidores públicos, en materia de Ética Integridad y Conflicto de Interés. </p>
+  </div>
+  <nz-divider></nz-divider>
+  <div nz-row nzJustify="end" *ngIf="!loading" >
+    <button style="margin-left: 5px;" nz-button nzType="primary" nzSize='default' nzShape="round" (click)="nuevaDifusion()"><i nz-icon nzType="plus" nzTheme="outline"></i>Nueva Difusión</button>
+  </div>
+  <nz-table #basicTable nzOuterBordered nzShowSizeChanger [nzData]="data" [nzPageSize]="20"
+            [nzScroll]="innerWidth" [nzLoading]="loading" nzTitle="Listado de Difusión">
+  
+    <thead>
+    <tr>
+      <th>Tema</th>
+      <th>Descripción</th>
+      <th>Fecha</th>
+      <th nzWidth ="120px" nzRight>Opciones</th>
+    </tr>
+    </thead>
+  
+  
+    <tbody>
+    <tr *ngFor="let data of data">
+      <td> {{ data.Tema.Tema }} </td>
+      <td> {{ data.Tema.Descripcion}} </td>
+      <td> {{ data.Fecha | date : 'EEEE, MMMM d, y ' }} </td>
+     
+      <td nzRight>
+        <div class="table-buttons">
+          <button nz-button nzDanger nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Elimimar difusión" nzTooltipPlacement="top" nz-tooltip
+                  nzPopconfirmTitle="¿estas seguro de eliminar la Difusión?" (nzOnConfirm)="delete(data.Id)" nzTooltipTitle="Eliminar la Difusión" nzTooltipPlacement="topCenter" nz-tooltip>
+            <i nz-icon nzType="delete"></i></button>
+  
+          <button nz-button nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Ver difusión" nzTooltipPlacement="top" nz-tooltip
+                  (click)="ver(data.Id)" nzTooltipTitle="Ver difusión" nzTooltipPlacement="topCenter" nz-tooltip>
+              <i nz-icon nzType="eye" nzTheme="outline"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  
+  </nz-table>
+  
+</div>
+
+<!-- cuando es administrador -->
+
+<div *ngIf="isAdmin && !loading">
+  <div nz-row style="margin-bottom: 2rem;">
+    <div nz-col [nzSpan]="6">
+      <nz-select style="width: 100%;" nzShowSearch nzAllowClear nzPlaceHolder="Selecciona dependencia" [(ngModel)]="dependencia">
+        <nz-option *ngFor="let item of dependencias" [nzLabel]="item.Nombre" [nzValue]="item.Id"></nz-option>
+      </nz-select>
+    </div>
+    <div nz-col [nzSpan]="6">
+      <nz-select style="width: 100%;" [(ngModel)]='anio'>
+        <nz-option *ngFor="let item of anios" [nzValue]='item' [nzLabel]='item.toString()'></nz-option>
+      </nz-select>
+    </div>
+    <div nz-col [nzSpan]="6">
+      <button nz-button nz-type="default" (click)="buscarPorDependenciaAnio()">
+        <i nz-icon nzType="search"></i>
+        Buscar
+      </button>
+    </div>
+  </div>
+
+  <div>
+    <nz-table #basicTable nzOuterBordered nzShowSizeChanger [nzData]="data" [nzPageSize]="20"
+              [nzScroll]="innerWidth" [nzLoading]="loading" nzTitle="Listado de Difusión" style="min-height: 500px;">
+    
+      <thead>
+      <tr>
+        <th>Tema</th>
+        <th>Descripción</th>
+        <th>Fecha</th>
+        <th nzWidth ="120px" nzRight>Opciones</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of data">
+        <td> {{ data.Tema.Tema }} </td>
+        <td> {{ data.Tema.Descripcion}} </td>
+        <td> {{ data.Fecha | date : 'EEEE, MMMM d, y ' }} </td>
+        <td nzRight>
+          <div class="table-buttons">
+            <button nz-button nzDanger nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Elimimar difusión" nzTooltipPlacement="top" nz-tooltip
+                    nzPopconfirmTitle="¿estas seguro de eliminar la Difusión?" (nzOnConfirm)="delete(data.Id)" nzTooltipTitle="Eliminar la Difusión" nzTooltipPlacement="topCenter" nz-tooltip>
+              <i nz-icon nzType="delete"></i></button>
+    
+            <button nz-button nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Ver difusión" nzTooltipPlacement="top" nz-tooltip
+                    (click)="ver(data.Id)" nzTooltipTitle="Ver difusión" nzTooltipPlacement="topCenter" nz-tooltip>
+                <i nz-icon nzType="eye" nzTheme="outline"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>

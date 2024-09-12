@@ -1,0 +1,23 @@
+<div nz-row class="text-center">
+    <h3>Reportes</h3>
+</div>
+<nz-table #basicTable [nzData]="data" [nzShowPagination]="false">
+    <thead>
+      <tr>
+        <th>Reporte</th>
+        <th>Descripción</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{ data.Nombre }}</td>
+        <td>{{ data.Descripcion }}</td>
+        <td>
+            <button nz-button nzType="primary" nzSize="small" (click)="navigate(data)" nzShape="round">
+                <i nz-icon nzType="double-right" nzTheme="outline"></i>
+            </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>

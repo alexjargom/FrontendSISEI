@@ -1,0 +1,191 @@
+<section [ngClass]="index%2 == 0 ? 'container': 'container reverse'" *ngIf="!loading">
+
+  <div class="preview">
+    <ngx-doc-viewer *ngIf="exist" [url]="fileUrl" [viewer]="viewer" class="viewer">
+    </ngx-doc-viewer>
+    <section *ngIf="!exist">
+      <div class="text-center">
+        Imagen no disponible
+      </div>
+    </section>
+  </div>
+
+  <div class="info">
+    <section class="body">
+      <section class="title">
+        <h1 nz-typography>
+          {{title}}
+        </h1>
+        <a
+          *ngIf="exist && (typeFileDetail == importType.CHECK_FORMATO || typeFileDetail == importType.CHECK_COMITE_FILES || importType.CHECK_DOCUMENTACION || importType.ONLY_VIEW)"
+          [href]="fileUrl" target="_blank"
+          nz-button nzSize="large" nzType="link" nzTooltipTitle="Descargar" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzType="download"></i></a>
+      </section>
+
+      <nz-divider></nz-divider>
+      <p nz-typography>
+        {{ description }}
+      </p>
+    </section>
+
+    <ng-container *ngIf="typeFileDetail == importType.UPLOAD_COMITE_FILE">
+      <ng-container *ngTemplateOutlet="UPLOAD_COMITE_FILE"></ng-container>
+    </ng-container>
+
+    <ng-container
+      *ngIf="typeFileDetail == importType.UPLOAD_FORMATO">
+      <ng-container *ngTemplateOutlet="UPLOAD_FORMATO"></ng-container>
+    </ng-container>
+
+    <ng-container
+      *ngIf="typeFileDetail == importType.CHECK_FORMATO ">
+      <ng-container *ngTemplateOutlet="CHECK_FORMATO"></ng-container>
+    </ng-container>
+
+    <ng-container
+      *ngIf="typeFileDetail == importType.UPLOAD_DOCUMENTACION">
+      <ng-container *ngTemplateOutlet="UPLOAD_DOCUMENTACION"></ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="typeFileDetail == importType.UPLOAD_SIMPLE_FILE">
+      <ng-container *ngTemplateOutlet="UPLOAD_SIMPLE_FILE"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="typeFileDetail == importType.UPLOAD_VERIFICACION">
+      <ng-container *ngTemplateOutlet="UPLOAD_FORMATO"></ng-container>
+    </ng-container>
+  </div>
+</section>
+
+<ng-template #UPLOAD_COMITE_FILE>
+  <div class="actions">
+    <nz-upload [nzBeforeUpload]="beforeUpload"
+               nzAccept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf">
+      <button nz-button><i nz-icon nzType="upload"></i>Subir archivo</button>
+    </nz-upload>
+  </div>
+</ng-template>
+
+
+<ng-template #UPLOAD_FORMATO>
+  <section>
+    <form *ngIf="!loading" nz-form nzLayout="vertical" [formGroup]="form">
+      <div>
+
+        <nz-form-item>
+          <nz-form-label>Nombre</nz-form-label>
+          <nz-form-control nzErrorTip="Nombre invalido">
+            <input nz-input formControlName="Nombre" name="errorValid" [readonly]="typeFileDetail == importType.UPLOAD_VERIFICACION" />
+          </nz-form-control>
+        </nz-form-item>
+
+
+        <nz-form-item>
+          <nz-form-label>Descripcion</nz-form-label>
+          <nz-form-control nzErrorTip="Descripcion invalida">
+            <textarea [nzAutosize]="{ minRows: 3, maxRows: 4 }" rows="3" nz-input formControlName="Descripcion"
+                      name="errorValid"></textarea>
+
+          </nz-form-control>
+        </nz-form-item>
+
+      </div>
+
+      <div nz-row>
+        <div nz-col nzSpan="8">
+          <nz-form-item>
+            <nz-form-control>
+              <ng-container *ngTemplateOutlet="UPLOAD_COMITE_FILE"></ng-container>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="8" nzOffset="8" class="text-right">
+          <nz-form-item>
+            <nz-form-control>
+              <button nz-button nzType="primary" (click)="submitForm()">Registrar</button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+    </form>
+  </section>
+</ng-template>
+
+<ng-template #CHECK_FORMATO>
+  <section>
+    <div nz-row>
+      <div nz-col nzSpan="8" >
+        <button *ngIf="editable" nz-button nzType="primary" (click)="editEvent.emit()">Editar</button>
+      </div>
+      <div nz-col nzSpan="8" nzOffset="8" class="text-right">
+        <button *ngIf="editable" nz-button nzType="primary" nz-popconfirm
+                nzPopconfirmTitle="¿Estas seguro de eliminar?" (nzOnConfirm)="deleteEvent.emit()"
+                nzDanger>Eliminar
+        </button>
+      </div>
+    </div>
+  </section>
+</ng-template>
+
+
+<ng-template #UPLOAD_SIMPLE_FILE>
+  <div class="actions">
+    <div nzRow>
+      <div nz-col nzSpan="8">
+        <nz-upload [nzBeforeUpload]="beforeUpload"
+               nzAccept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf">
+          <button nz-button><i nz-icon nzType="upload"></i>Subir archivo</button>
+        </nz-upload>
+      </div>
+      <div nz-col nzSpan="8" nzOffset="8" class="text-right">
+        <nz-form-item>
+          <nz-form-control>
+            <button nz-button nzType="primary" (click)="sendEditEvent()">Continuar</button>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    
+  </div>
+</ng-template>
+
+<ng-template #UPLOAD_DOCUMENTACION>
+  <section>
+    <form *ngIf="!loading" nz-form nzLayout="vertical" [formGroup]="form">
+      <div>
+        <nz-form-item>
+          <nz-form-label nzRequired>Tipo:</nz-form-label>
+          <nz-form-control>
+            <nz-select formControlName='Tipo'>
+              <nz-option *ngFor="let item of tipoDocumentacion" [nzValue]='item.tipo' [nzLabel]='item.name'></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzRequired>Año</nz-form-label>
+          <nz-form-control >
+            <input nz-input type="number" formControlName="Anio" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="8">
+          <nz-form-item>
+            <nz-form-control>
+              <ng-container *ngTemplateOutlet="UPLOAD_COMITE_FILE"></ng-container>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="8" nzOffset="8" class="text-right">
+          <nz-form-item>
+            <nz-form-control>
+              <button nz-button nzType="primary" (click)="submitForm()">Registrar</button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+    </form>
+  </section>
+</ng-template>

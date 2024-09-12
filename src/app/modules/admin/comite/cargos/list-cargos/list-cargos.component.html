@@ -1,0 +1,39 @@
+<div nz-row nzJustify="end" >
+  <button style="margin-left: 5px;" nz-button nzType="primary" nzSize='default' nzShape="round" (click)="nuevoCargo()"><i nz-icon nzType="plus" nzTheme="outline"></i>Nuevo Cargo</button>
+</div>
+<nz-table #basicTable nzOuterBordered nzShowSizeChanger [nzData]="data" [nzPageSize]="20"
+  [nzScroll]="innerWidth" [nzLoading]="loading" nzTitle="Lista de cargos de comité">
+
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Descripcion</th>
+      <th nzWidth ="120px">Genera usuario</th>
+      <th nzWidth ="120px" nzRight>Opciones</th>
+    </tr>
+  </thead>
+
+
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{ data.Basic.Nombre }}</td>
+      <td>{{ data.Basic.Descripcion }}</td>
+      <td>
+        <i nz-icon [nzType]="data.GeneraUsuario ? 'check' : 'close' " nzTheme="outline"></i>
+      </td>
+      <td nzRight>
+        <div class="table-buttons">
+          <button nz-button nzDanger nzTooltipTitle="Elimimar cargo" nzTooltipPlacement="top" nz-tooltip nzType="primary" nzShape="circle" nz-popconfirm
+            nzPopconfirmTitle="¿estas seguro de eliminar el cargo ?" (nzOnConfirm)="delete(data.Id)">
+            <i nz-icon nzType="delete"></i></button>
+
+            <button nz-button nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Actualizar cargo" nzTooltipPlacement="top" nz-tooltip
+            (click)="update(data.Id)">
+            <i nz-icon nzType="edit"></i></button>
+        </div>
+
+      </td>
+    </tr>
+  </tbody>
+
+</nz-table>

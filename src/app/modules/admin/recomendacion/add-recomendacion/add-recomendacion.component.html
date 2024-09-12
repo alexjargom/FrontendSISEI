@@ -1,0 +1,49 @@
+<app-back-button  ></app-back-button>
+<div *ngIf="!loading" nz-row nzJustify="center">
+  <div nz-col nzLg="12" nzSpan="20" >
+
+    <h1 nz-typography>
+      Registrar recomendación
+    </h1>
+
+    <form nz-form nzLayout="vertical" [formGroup]="form" autocomplete="off">
+
+      <div formGroupName="Tema">
+
+        <nz-form-item>
+          <nz-form-label nzRequired>Tema</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="Tema" name="Tema" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzRequired>Descripcion</nz-form-label>
+          <nz-form-control>
+            <textarea [nzAutosize]="{ minRows: 3, maxRows: 4 }" rows="3" nz-input formControlName="Descripcion"
+                      name="Descripcion"></textarea>
+          </nz-form-control>
+        </nz-form-item>
+
+      </div>
+
+      <nz-form-item>
+        <nz-form-label >Dependencias</nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-select (ngModelChange)="Cambiooo($event)" name="select-error" [nzAllowClear]="true" [nzShowSearch]="true" nzMode="multiple" formControlName="Dependencias">
+            <nz-option nzLabel='Todos' nzValue='all'></nz-option>
+            <nz-option *ngFor="let option of dependencias" [nzLabel]="option.Nombre" [nzValue]="option.Id"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control [nzSpan]="12">
+          <button nz-button nzType="primary" (click)="submitForm()">Registrar</button>
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+
+  </div>
+</div>

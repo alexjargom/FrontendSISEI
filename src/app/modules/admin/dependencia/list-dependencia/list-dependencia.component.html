@@ -1,0 +1,53 @@
+<div nz-row nzJustify="end" *ngIf="isAdmin" >
+  <button style="margin-left: 5px;" nz-button nzType="primary" nzSize='default' nzShape="round" (click)="nuevaDependencia()"><i nz-icon nzType="plus" nzTheme="outline"></i>Nueva Dependencia</button>
+</div>
+<nz-table #basicTable nzOuterBordered nzShowSizeChanger [nzData]="dataDisplay" [nzPageSize]="20"
+  [nzScroll]="innerWidth" [nzLoading]="loading" nzTitle="Lista de dependencias">
+
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th nzWidth ="250px" >Siglas
+        <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+          <i nz-icon nzType="search"></i>
+        </nz-filter-trigger>
+      </th>
+      <th>Direccion</th>
+      <th nzWidth ="120px" nzRight>Opciones</th>
+    </tr>
+  </thead>
+
+
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{ data.Nombre }}</td>
+      <td>{{ data.Siglas }} </td>
+      <td nzBreakWord>{{ data.Direccion }} </td>
+      <td nzRight>
+        <div class="table-buttons">
+          <button nz-button nzDanger nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Elimimar dependencia" nzTooltipPlacement="top" nz-tooltip
+            nzPopconfirmTitle="¿estas seguro de eliminar la dependencia ?" (nzOnConfirm)="delete(data.Id)">
+            <i nz-icon nzType="delete"></i></button>
+
+            <button nz-button nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Actualizar dependencia" nzTooltipPlacement="top" nz-tooltip
+            (click)="update(data.Id)">
+            <i nz-icon nzType="edit"></i></button>
+        </div>
+
+      </td>
+    </tr>
+  </tbody>
+
+</nz-table>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
+      <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
+        Search
+      </button>
+      <button nz-button nzSize="small" (click)="reset()">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu>

@@ -1,0 +1,65 @@
+<div nz-row nzJustify="center">
+    
+    <div nz-col nzLg='8' nzSpan="8"  >
+        <h1 nz-typography>Conformación de comite</h1>
+        <form *ngIf='!loading' nz-form nzLayout='vertical' [formGroup]="form" autocomplete="off">
+            
+            <nz-form-item *ngIf="!conformacion.Id"> 
+                <!-- <nz-form-label></nz-form-label> -->
+                <nz-form-control>
+                    <label nz-checkbox (ngModelChange)="cambio()" formControlName="Distinto">¿La conformación de su comite es distinta? </label>
+                </nz-form-control>
+            </nz-form-item>
+    
+            <nz-form-item *ngIf="!conformacion.Id && ver">
+                <nz-form-control>
+                    <nz-upload nzAccept="xlsx,docx,pdf" [nzBeforeUpload]="beforeUpload">
+                        <button nz-button><i nz-icon nzType="upload"></i>Archivo de solicitud</button>
+                    </nz-upload>
+                </nz-form-control>
+            </nz-form-item>
+                
+            <nz-form-item *ngIf="!conformacion.Id && ver">
+                <ul nz-list [nzDataSource]="fileSolicitud"  nzSize="large">
+                    <li nz-list-item  nzNoFlex>
+                        <ul nz-list-item-actions *ngIf="fileSolicitud">
+                            <nz-list-item-action>
+                            <a nzDanger (click)="quitarArchivo()"><i nz-icon nzType="delete" nzTheme="outline"></i></a>
+                            </nz-list-item-action>
+                        </ul>
+                      {{ fileSolicitud?.name }}
+                    </li>
+                </ul>
+            </nz-form-item>
+    
+            <nz-form-item *ngIf="conformacion.Id && conformacion?.Distinto && !conformacion.Aceptacion">
+                <nz-form-control>
+                    <nz-upload nzAccept="xlsx,docx,pdf" [nzBeforeUpload]="beforeUpload2" >
+                    <button nz-button><i nz-icon nzType="upload"></i>Archivo de aceptación</button>
+                    </nz-upload>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item *ngIf="conformacion.Id && conformacion?.Distinto && !conformacion.Aceptacion">
+               <ul nz-list [nzDataSource]="fileAceptacio"  nzSize="large">
+                   <li nz-list-item nzNoFlex>
+                      <ul nz-list-item-actions *ngIf="fileAceptacio">
+                          <nz-list-item-action>
+                            <a nzDanger (click)=" quitarArchivoAceptado()"><i nz-icon nzType="delete" nzTheme="outline"></i></a>
+                          </nz-list-item-action>
+                      </ul>
+                      {{ fileAceptacio?.name }}
+                  </li>
+               </ul>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-control [nzSpan]="12">
+                  <button nz-button nzType="primary" (click)="conformacion.Id?cargarArchivoAceptacion():submitForm()" >Registrar</button>
+                </nz-form-control>
+            </nz-form-item>
+    
+        </form>
+    </div>
+
+</div>

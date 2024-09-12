@@ -1,0 +1,6 @@
+<div class="loader hide" id="loader">
+  <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <ng-lottie [options]="lottieConfig" (animationCreated)="handleAnimation($event)" width="160px" ></ng-lottie>
+  </div>
+</div>
+<router-outlet></router-outlet>

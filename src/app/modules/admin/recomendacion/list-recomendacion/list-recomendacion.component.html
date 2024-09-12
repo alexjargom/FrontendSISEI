@@ -1,0 +1,28 @@
+<app-back-button *ngIf="!isAdmin"></app-back-button>
+<div nz-row nzJustify="end" *ngIf="isAdmin" >
+  <button style="margin-left: 5px;" nz-button nzType="primary" nzSize='default' nzShape="round" (click)="nuevaRecomendacion()"><i nz-icon nzType="plus" nzTheme="outline"></i>Nueva Recomendación</button>
+</div>
+<section class="card" *ngFor="let item of data">
+  <nz-descriptions
+    [nzTitle]="item.Tema.Tema"
+    nzSize="middle"
+    [nzExtra]="extraTpl"
+  >
+    <ng-template #extraTpl >
+      <button *ngIf="isAdmin" nz-button nzType="primary" (click)="update(item.Id)" style="margin-right: 2em;" nzTooltipTitle="Actualizar recomendación" nzTooltipPlacement="top" nz-tooltip >Editar</button>
+      <button *ngIf="isAdmin" nz-button nzType="primary" nz-popconfirm nzTooltipTitle="Elimimar recomendación" nzTooltipPlacement="top" nz-tooltip
+              nzPopconfirmTitle="¿Estas seguro de eliminar?" (nzOnConfirm)="delete(item.Id)"
+              nzDanger>Eliminar
+      </button>
+    </ng-template>
+
+
+    <nz-descriptions-item nzTitle="Descripción" [nzSpan]="3">
+      {{ item.Tema.Descripcion }}
+    </nz-descriptions-item
+    >
+  </nz-descriptions>
+</section>
+
+<nz-empty *ngIf="data.length==0" nzNotFoundImage="simple" nzNotFoundContent="No hay recomendaciones"></nz-empty>
+

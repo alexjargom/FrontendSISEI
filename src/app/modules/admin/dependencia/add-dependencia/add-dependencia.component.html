@@ -1,0 +1,47 @@
+<app-back-button *ngIf="isAdmin" ></app-back-button>
+ <div nz-row nzJustify="center">
+  <div nz-col nzLg="12" nzSpan="20" >
+
+    <h1 nz-typography>
+      {{ isUpdate? 'Actualizar Dependencia': 'Registrar Dependencia' }}
+    </h1>
+
+  <form *ngIf="!loading" nz-form nzLayout="vertical" [formGroup]="form" autocomplete="off">
+
+    <nz-form-item>
+      <nz-form-label >Nombre</nz-form-label>
+      <nz-form-control>
+        <input nz-input formControlName="Nombre" name="Nombre" />
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">Siglas</nz-form-label>
+      <nz-form-control>
+        <input nz-input  formControlName="Siglas" name="Siglas" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">Direccion</nz-form-label>
+      <nz-form-control>
+        <input nz-input  formControlName="Direccion" name="Direccion" />
+      </nz-form-control>
+    </nz-form-item>
+
+
+
+    <nz-form-item>
+      <nz-form-control [nzSpan]="12">
+        <button nz-button nzType="primary" (click)="submitForm()"> {{ isUpdate ? 'Actualizar': 'Registrar' }} </button>
+      </nz-form-control>
+    </nz-form-item>
+
+
+    </form>
+
+
+
+  </div>
+</div>

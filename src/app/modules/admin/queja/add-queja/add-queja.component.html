@@ -1,0 +1,49 @@
+<app-back-button ></app-back-button>
+<div *ngIf="!loading" nz-row nzJustify="center">
+  <div nz-col nzLg="12" nzSpan="20" >
+
+    <h1 nz-typography>
+      Registrar queja
+    </h1>
+
+    <form nz-form nzLayout="vertical" [formGroup]="form" autocomplete="off">
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Fecha de Presentación</nz-form-label>
+          <nz-date-picker formControlName="FechaPresentacion" nzFormat="yyyy-MM-dd" ></nz-date-picker>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Tipo</nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="Tipo">
+            <nz-option nzValue="a" nzLabel="Queja"></nz-option>
+            <nz-option nzValue="b" nzLabel="Denuncia"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Contra de quién</nz-form-label>
+        <nz-form-control>
+          <input nz-input type="text" formControlName="Quejado">
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Quién interpone</nz-form-label>
+        <nz-form-control>
+          <input nz-input type="text" formControlName="Quejoso" name="Quejoso" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control [nzSpan]="12">
+          <button nz-button nzType="primary" (click)="submitForm()">Registrar</button>
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+
+  </div>
+</div>

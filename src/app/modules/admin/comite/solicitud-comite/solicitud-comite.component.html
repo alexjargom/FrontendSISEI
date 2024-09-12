@@ -1,0 +1,25 @@
+
+<ng-container *ngIf="comiteStatus">
+
+<nz-result
+  [nzStatus]="comiteStatus!.status"
+  [nzTitle]="comiteStatus!.title"
+  [nzSubTitle]="comiteStatus!.subtitle"
+>
+  <div nz-result-extra>
+    <button *ngIf="comiteStatus!.textButton1" nz-button nzType="primary" (click)="updateStatus(comiteStatus!.nextStatus)">
+      {{ comiteStatus!.textButton1 }} </button>
+
+    <button *ngIf="isAdmin && data!.Status === statusRegistroComite.Solicitado" nz-button nzType="primary"
+            (click)="updateStatus(statusRegistroComite.Aceptado)">
+      Aceptar comité
+    </button>
+
+    <button *ngIf="isAdmin && data!.Status === statusRegistroComite.Solicitado" nz-button nzDanger
+            (click)="updateStatus(statusRegistroComite.Rechazado)">
+      Rechazar comité
+    </button>
+  </div>
+</nz-result>
+
+</ng-container>

@@ -1,0 +1,8 @@
+<app-back-button ></app-back-button>
+<app-file-detail *ngIf="!loading" title="Nuevo Documento" [typeFileDetail]="typeDetailFile"
+                 [description]="doc"
+                 (setFile)="setFile($event)"
+                 [dataFormUpdate]="data" [fileUrl]="urlFile"
+                 (formValue)="formComplete($event)"
+>
+</app-file-detail>

@@ -1,0 +1,58 @@
+<app-back-button ></app-back-button>
+ <div nz-row nzJustify="center">
+  <div nz-col nzLg="12" nzSpan="20" >
+
+    <h1 nz-typography>
+      Registrar usuario
+    </h1>
+
+  <form *ngIf="!loading" nz-form nzLayout="vertical" [formGroup]="form" autocomplete="off">
+
+    <nz-form-item>
+      <nz-form-label nzRequired>Usuario</nz-form-label>
+      <nz-form-control nzErrorTip="Nombre de usuario invalido">
+        <input nz-input formControlName="Usuario" name="errorValid" />
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" nzRequired >Contraseña</nz-form-label>
+      <nz-form-control   nzErrorTip="Contraseña invalida">
+        <input nz-input  formControlName="Contrasena" name="errorValid" />
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-form-item>
+      <nz-form-label nzRequired >Tipo de usuario</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <nz-select name="select-error" formControlName="TipoUsuarioId" (ngModelChange)="changeSelectTipo($event)">
+          <nz-option *ngFor="let option of tipoUsuario" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="this.form.controls.TipoUsuarioId?.value == tip.Dependencia" >
+      <nz-form-label nzRequired>Comite</nz-form-label>
+      <nz-form-control>
+        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select un comite" formControlName="ComiteId">
+          <nz-option *ngFor="let op of comitesLibres" [nzLabel]="op.Nombre" [nzValue]="op.Id"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-form-item>
+      <nz-form-control [nzSpan]="12">
+        <button nz-button nzType="primary" (click)="submitForm()">Registrar</button>
+      </nz-form-control>
+    </nz-form-item>
+
+
+    </form>
+
+
+
+  </div>
+</div>

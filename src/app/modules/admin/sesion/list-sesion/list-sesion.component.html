@@ -1,0 +1,64 @@
+<div *ngIf="!isAdmin" nz-row nzJustify="end" >
+  <button *ngIf="estadoPlan" style="margin-left: 5px;" nz-button nzType="primary" nzSize='default' nzShape="round" (click)="nuevaSesion()"><i nz-icon nzType="plus" nzTheme="outline"></i>Nueva Sesión</button>
+  <div nz-col *ngIf="!estadoPlan">
+    <p nz-paragraph>Para registrar las sesiones de {{anio}} debe registrar su plan del año correspondiente 
+      y esperar que este sea aprobado.</p>
+  </div>
+</div>
+<nz-table #basicTable nzOuterBordered nzShowSizeChanger [nzData]="dataDisplay" [nzPageSize]="20"
+          [nzScroll]="innerWidth" [nzLoading]="loading" nzTitle="Lista de sesiones">
+
+  <thead>
+  <tr>
+    <th>Tema</th>
+    <th nzWidth ="250px" >Descripción</th>
+    <th> Dependencia
+      <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+        <i nz-icon nzType="search"></i>
+      </nz-filter-trigger>
+    </th>
+    <th>Lugar</th>
+    <th>Fecha</th>
+    <th>Enlace</th>
+    <th nzWidth ="120px" nzRight>Opciones</th>
+  </tr>
+  </thead>
+
+
+  <tbody>
+  <tr *ngFor="let data of basicTable.data">
+    <td>{{ data.Tema }}</td>
+    <td>{{ data.Descripcion }} </td>
+    <td>{{ data.Dependencia.Nombre }} </td>
+    <td nzBreakWord>{{ data.Lugar }} </td>
+    <td nzBreakWord>{{ data.Fecha | date : 'EEEE, MMMM d, y, h:mm a'  }} </td>
+    <td nzBreakWord> <a href="{{ data?.Enlace }}">{{ data?.Enlace }}</a> </td>
+    <td nzRight>
+      <div class="table-buttons">
+
+        <button nz-button nzDanger nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Elimimar sesión" nzTooltipPlacement="top" nz-tooltip
+                nzPopconfirmTitle="¿Estas seguro de eliminar la sesión ?" (nzOnConfirm)="delete(data.Id)">
+          <i nz-icon nzType="delete"></i></button>
+
+        <button nz-button nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Actualizar sesión" nzTooltipPlacement="top" nz-tooltip
+                (click)="update(data.Id)">
+          <i nz-icon nzType="edit"></i></button>
+      </div>
+
+    </td>
+  </tr>
+  </tbody>
+
+</nz-table>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
+      <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
+        Search
+      </button>
+      <button nz-button nzSize="small" (click)="reset()">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu>

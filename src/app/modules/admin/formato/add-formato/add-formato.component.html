@@ -1,0 +1,9 @@
+<app-back-button ></app-back-button>
+<app-file-detail *ngIf="!loading"   title="Nuevo formato" [typeFileDetail] ="typeDetailFile"
+description="Cargar nuevo formato disponible para las dependencias"
+(setFile)="setFile($event)"
+[dataFormUpdate] ="data" [fileUrl]="urlFile"
+(formValue) = "formComplete($event)"
+>
+
+</app-file-detail>

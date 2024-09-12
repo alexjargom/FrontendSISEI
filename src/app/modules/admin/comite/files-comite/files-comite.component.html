@@ -1,0 +1,7 @@
+<ng-container *ngIf="!loading">
+  <app-file-detail *ngFor="let item of filesCtl; let i=index" [index]="i" [title]="item.title" [typeFileDetail] ="typeDetailFile"
+    [description]="item.description" [fileUrl]="item.url" (setFile)="upload($event, item)">
+
+  </app-file-detail>
+
+</ng-container>

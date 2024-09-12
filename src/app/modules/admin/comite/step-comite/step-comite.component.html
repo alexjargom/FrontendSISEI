@@ -1,0 +1,30 @@
+<app-back-button ></app-back-button>
+<nz-steps *ngIf="!loading" nzType="navigation" [nzCurrent]="current" (nzIndexChange)="onIndexChange($event)">
+
+  <nz-step nzTitle="Registro" nzIcon="user"[nzDisabled]="current != 0 && !abilitar "> </nz-step>
+
+  <nz-step nzTitle="Verificación" nzIcon="solution" [nzDisabled]="current != 1 && !abilitar "> </nz-step>
+
+  <nz-step nzTitle="Revision" nzIcon="solution" [nzDisabled]="current != 2 && !abilitar " > </nz-step>
+</nz-steps>
+
+<ng-container *ngIf="!loading">
+
+  <ng-container *ngIf="current == 0">
+    <app-add-comite [isUpdate]='isUpdate' [id]='id' [data]='data' (completeRegister)="completeRegister($event)">
+    </app-add-comite>
+  </ng-container>
+
+  <ng-container *ngIf="current == 1">
+
+    <app-files-comite (finish)="next($event)" [id]="id" [data]='data'>
+
+    </app-files-comite>
+
+  </ng-container>
+  <ng-container *ngIf="current == 2">
+    <app-solicitud-comite [id]="id" [data]='data'>
+    </app-solicitud-comite>
+  </ng-container>
+
+</ng-container>

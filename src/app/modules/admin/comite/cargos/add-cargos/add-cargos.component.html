@@ -1,0 +1,51 @@
+<app-back-button></app-back-button>
+ <div nz-row nzJustify="center">
+  <div nz-col nzLg="12" nzSpan="20" >
+
+    <h1 nz-typography>
+      Registrar cargo de comité
+    </h1>
+
+  <form *ngIf="!loading" nz-form nzLayout="vertical" [formGroup]="form" autocomplete="off">
+
+    <div formGroupName="Basic">
+
+    <nz-form-item>
+      <nz-form-label>Nombre del cargo</nz-form-label>
+      <nz-form-control nzErrorTip="Nombre del cargo invalido">
+        <input nz-input formControlName="Nombre" name="errorValid" />
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-form-item>
+      <nz-form-label>Descripcion</nz-form-label>
+      <nz-form-control  nzErrorTip="Descripcion invalida">
+        <input nz-input  formControlName="Descripcion" name="errorValid" />
+      </nz-form-control>
+    </nz-form-item>
+
+  </div>
+
+  <!-- <div nz-row class="form-margin">
+    <div nz-col [nzSpan]="24">
+      <label nz-checkbox formControlName="GeneraUsuario">
+        <span>El tipo de cargo genera usuario automáticamente</span>
+      </label>
+    </div>
+  </div> -->
+
+
+    <nz-form-item>
+      <nz-form-control [nzSpan]="12">
+        <button nz-button nzType="primary" (click)="submitForm()">Registrar</button>
+      </nz-form-control>
+    </nz-form-item>
+
+
+    </form>
+
+
+
+  </div>
+</div>

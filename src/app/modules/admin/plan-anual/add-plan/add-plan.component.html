@@ -1,0 +1,53 @@
+<app-back-button></app-back-button>
+<div *ngIf="!loading" nz-row nzJustify="center">
+    <div nz-col nzLg="12" nzSpan="20">
+          <h1 nz-typography>
+            Registrar Plan Anual
+          </h1>
+          <form nz-form nzLayout="vertical" [formGroup]="form" autocomplete="off">
+            <nz-form-item>
+                <nz-form-label >Fecha Inicial</nz-form-label>
+                    <nz-date-picker nzFormat="yyyy-MM-dd HH:mm" 
+                    nzDisabled formControlName="FechaInicio">
+                    </nz-date-picker>
+            </nz-form-item> 
+    
+            <nz-form-item>
+                <nz-form-label >Fecha Final</nz-form-label>
+                    <nz-date-picker  nzDisabled formControlName="FechaFinal" ></nz-date-picker>
+            </nz-form-item>
+    
+            <nz-form-item>
+                <nz-form-label nzRequired>Año</nz-form-label>
+                    <nz-date-picker nzMode="year" formControlName="Anio" (ngModelChange)="onChange($event)"></nz-date-picker>
+            </nz-form-item>
+
+            <nz-form-item *ngIf="isAdmin">
+                <nz-form-label nzRequired> Dependendencia</nz-form-label>
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Selecciona una Dependencia" formControlName="DependenciaId">
+                    <nz-option *ngFor="let op of deps" [nzLabel]="op.Nombre" [nzValue]="op.Id"></nz-option>
+                </nz-select>
+            </nz-form-item>
+    
+            <nz-form-item>
+                <nz-form-control [nzSpan]="12">
+                  <button nz-button nzType="primary" (click)="submitForm()"> {{ isUpdate ? 'Actualizar': 'Registrar' }} </button>
+                </nz-form-control>
+            </nz-form-item>
+          </form>
+    </div>
+</div>
+
+<!-- <ng-container *ngIf="current == 1">
+        <app-file-detail *ngIf="!loading"   title="Nuevo Plan Anual" [typeFileDetail] ="typeDetailFile"
+            description="Cargar Plan Anual en formato PDF"
+            (setFile)="setFile($event)"
+            [fileUrl]="urlFile"
+            (editEvent)="submitForm()"
+            >
+        </app-file-detail>
+    </ng-container> -->
+  
+<!-- <ng-container *ngIf="!loading">
+  
+</ng-container> -->

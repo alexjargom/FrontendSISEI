@@ -1,0 +1,114 @@
+<app-add-conformacion *ngIf=" !isAdmin &&( (!loading && !conformacion.Id) || (!loading && conformacion.Distinto && !conformacion.Aceptacion))" (actualizar)="Updatedata($event)" [conformacion]="conformacion"></app-add-conformacion>
+
+<div nz-row nzJustify="end" *ngIf="(conformacion.Id && conformacion.Distinto && conformacion.Solicitud && conformacion.Aceptacion && !loading) || (conformacion.Id && !conformacion.Distinto && !loading) || isAdmin">
+  <button nz-button (click)="copiar()" nzShape="round"> <i nz-icon nzType="copy" nzTheme="outline"></i>Copiar correos</button>
+  <button style="margin-left: 5px;" nz-button nzType="primary" nzSize='default' nzShape="round" (click)="nuevoComite()"><i nz-icon nzType="download"></i>Nuevo integrante</button>
+</div>
+
+
+<div nz-row nzJustify="end" nzAlign="middle" *ngIf="conformacion.Id">
+  <div nz-col>
+    <nz-form-label>Conformacion Disitinta</nz-form-label>
+    <nz-badge *ngIf="conformacion.Distinto" nzStatus="success">SI</nz-badge>
+    <nz-badge *ngIf="!conformacion.Distinto" nzStatus="default">NO</nz-badge>
+  </div>
+
+  <div nz-col style="margin-left: 5px;" *ngIf="conformacion.Solicitud">
+    <nz-form-label>Archivo de Solicitud</nz-form-label>
+    <a [href]="conformacion.Solicitud" target="_blank"
+      nz-button nzSize="large" nzType="link"><i nz-icon nzType="download"></i>
+    </a>
+    <button nz-button nzShape="round" (click)="ActualizarArchivo(1)" *ngIf="actualiza == -1" ><i nz-icon nzType="edit" nzTheme="outline"></i></button>
+    <div *ngIf="actualiza == 1" style="display: inline-block;" >
+      <button nz-button nzShape="round" (click)="GuardarArchivo()" ><i nz-icon nzType="save" nzTheme="outline"></i></button>
+      <button nz-button nzShape="round" (click)="cancelarActualizacio()" ><i nz-icon nzType="close" nzTheme="outline"></i></button>
+      <nz-upload nzAccept="xlsx,docx,pdf" [nzBeforeUpload]="beforeUpload2" >
+        <button nz-button><i nz-icon nzType="upload"></i>Nuevo archivo</button>
+        </nz-upload>
+    </div>
+  </div>
+  <div nz-col *ngIf="conformacion.Aceptacion">
+    <nz-form-label>Autorización de Conformación</nz-form-label>
+    <a [href]="conformacion.Aceptacion" target="_blank"
+      nz-button nzSize="large" nzType="link"><i nz-icon nzType="download"></i>
+    </a>
+    <button nz-button nzShape="round" (click)="ActualizarArchivo(2)" *ngIf="actualiza == -1" ><i nz-icon nzType="edit" nzTheme="outline"></i></button>
+    <div *ngIf="actualiza == 2" style="display: inline-block;"  >
+      <button nz-button nzShape="round" (click)="GuardarArchivo()" ><i nz-icon nzType="save" nzTheme="outline"></i></button>
+      <button nz-button nzShape="round" (click)="cancelarActualizacio()" ><i nz-icon nzType="close" nzTheme="outline"></i></button>
+      <nz-upload nzAccept="xlsx,docx,pdf" [nzBeforeUpload]="beforeUpload2" >
+        <button nz-button><i nz-icon nzType="upload"></i>Nuevo archivo</button>
+        </nz-upload>
+    </div>
+  </div>
+
+</div>
+<div nz-row nzJustify="end" *ngIf="nuevoArchivo != null" >
+  <label for=""> {{nuevoArchivo?.name}}</label>
+</div>
+
+<nz-table #basicTable nzOuterBordered nzShowSizeChanger [nzData]="dataDisplay" [nzPageSize]="20"
+          [nzScroll]="innerWidth" [nzLoading]="loading" nzTitle="Lista de comites"
+          *ngIf="(conformacion.Id && conformacion.Distinto && conformacion.Solicitud && conformacion.Aceptacion && !loading) || (conformacion.Id &&!conformacion.Distinto && !loading) || isAdmin">
+
+  <thead>
+  <tr>
+    <th nzWidth ="250px">Nombre</th>
+    <th nzWidth ="150px">Dependencia
+      <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+        <i nz-icon nzType="search"></i>
+      </nz-filter-trigger>
+    </th>
+    <th nzWidth ="150px">Cargo en dependencia</th>
+    <th nzWidth ="200px">Correo</th>
+    <th nzWidth ="180px">Celular</th>
+    <th nzWidth ="180px">Tel. Oficina</th>
+    <th nzWidth ="130px">Status</th>
+    <th nzWidth ="120px" nzRight>Opciones</th>
+  </tr>
+  </thead>
+
+
+  <tbody>
+  <tr *ngFor="let data of basicTable.data ">
+    <td>{{ data.Nombre + ' ' + data.PrimerApellido }} {{ data.SegundoApellido ? data.SegundoApellido : '' }} </td>
+    <td >{{ data.Dependencia.Nombre }} </td>
+    <td >{{ data.Cargo.Basic.Nombre }} </td>
+    <td >{{ data.Correo }} </td>
+    <td >{{ data.Celular }} </td>
+    <td >({{ data.ExtOficina }}) {{ data.TelOficina }}</td>
+    <td >{{ data.Status | status }} </td>
+    <td nzRight>
+      <div class="table-buttons">
+        <button *ngIf="data.IsEdit && !data.Cargo.GeneraUsuario" nz-button nzDanger nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Elimimar comité" nzTooltipPlacement="top" nz-tooltip
+                nzPopconfirmTitle="¿Estas seguro de eliminar al integrante de comité?" (nzOnConfirm)="delete(data.Id)">
+          <i nz-icon nzType="delete"></i></button>
+
+        <button *ngIf="data.IsEdit"  nz-button nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Actualizar comité" nzTooltipPlacement="top" nz-tooltip
+                (click)="update(data.Id)">
+          <i nz-icon nzType="edit"></i></button>
+        
+        <button *ngIf="data.IsEdit && isAdmin" style="background-color: red;"  nz-button nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Deshabilitar edición" nzTooltipPlacement="top" nz-tooltip
+          (click)="updateEdit(data.Id,false)">
+        <i nz-icon nzType="close" nzTheme="outline"></i></button>
+        <button *ngIf="!data.IsEdit && isAdmin" style="background-color:green;"  nz-button nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Habilitar edición" nzTooltipPlacement="top" nz-tooltip
+          (click)="updateEdit(data.Id,true)">
+        <i nz-icon nzType="check" nzTheme="outline"></i></button>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+
+</nz-table>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input type="text" nz-input placeholder="Buscar dependencia" [(ngModel)]="searchValue" />
+      <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
+        Buscar
+      </button>
+      <button nz-button nzSize="small" (click)="reset()">Cancelar</button>
+    </div>
+  </div>
+</nz-dropdown-menu>

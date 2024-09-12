@@ -1,0 +1,48 @@
+<!-- <div nz-row nzJustify="center" *ngIf="!loading" >
+    <nz-card style="width:600px;" [nzCover]="coverTemplate" [nzActions]="[actionSetting]">
+        <nz-card-meta [nzTitle]="queja.Tema"  [nzDescription]="queja.Descripcion" ></nz-card-meta>
+    </nz-card>
+
+    <ng-template #coverTemplate>
+        <div nz-row nzJustify="center" class="imgs" style="margin-top: 10px;">
+            <div nz-col [nzSpan]="spamSize[0]" *ngFor="let ev of evid1"  >
+                <img *ngIf="isImg(ev.TipoArchivo); else elseFile" nz-image [nzSrc]="ev.Archivo" alt="" />
+                <ng-template #elseFile>
+                    <div style="align-items: center; text-align: center;">
+                        <a *ngIf="ev.Archivo" 
+                            [href]="ev.Archivo" target="_blank"
+                            nz-button nzSize="large" nzType="link">
+                            <img nz-image [nzSrc]="fallback">
+                        </a>
+                        <div class="centrado">
+                            Vista no dispoble de archivo {{ ev.TipoArchivo }}
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+           
+            <div nz-row  nzJustify="center">
+                <div nz-col [nzSpan]="spamSize[1]" *ngFor="let ac of evid2" >
+                    <img nz-image *ngIf="isImg(ac.TipoArchivo); else elseFile2"  [nzSrc]="ac.Archivo" alt="" />
+                    <ng-template #elseFile2>
+                        <div style="align-items: center; text-align: center;">
+                            <a *ngIf="ac.Archivo" 
+                                [href]="ac.Archivo" target="_blank"
+                                nz-button nzSize="large" nzType="link">
+                                <img nz-image [nzSrc]="fallback" alt="Archivo">
+                            </a>
+                            <div class="centrado">
+                                Vista no dispoble de archivo {{ ac.TipoArchivo }}
+                            </div>
+                        </div>
+
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    
+    <ng-template #actionSetting>
+        <i nz-icon nzType="delete" (click)="eliminarQueja()" nzTheme="outline"></i>
+    </ng-template>
+</div> -->

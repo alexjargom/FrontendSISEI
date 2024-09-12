@@ -1,0 +1,122 @@
+<div nz-row nzJustify="end" >
+  <button style="margin-left: 5px;" nz-button nzType="primary" nzSize='default' nzShape="round" (click)="nuevoPlan()"><i nz-icon nzType="plus" nzTheme="outline"></i>Nuevo Plan</button>
+</div>
+<nz-table #basicTable nzOuterBordered nzShowSizeChanger [nzData]="dataDisplay" [nzPageSize]="20"
+          [nzScroll]="innerWidth" [nzLoading]="loading" nzTitle="Listado de Plan Anual">
+
+  <thead>
+  <tr>
+    <th>Fecha Inicio</th>
+    <th>Fecha Final</th>
+    <th nzWidth ="400px">Dependencia
+      <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+        <i nz-icon nzType="search"></i>
+      </nz-filter-trigger>
+    </th>
+    <th>Año</th>
+    <th nzWidth ="100px">Archivo</th>
+    <th>Status</th>
+    <th nzWidth ="120px" nzRight>Opciones</th>
+  </tr>
+  </thead>
+
+
+  <tbody>
+  <tr *ngFor="let data of basicTable.data">
+    <td>{{data.FechaInicio | date : 'EEEE, MMMM d, y, h:mm a' }}</td>
+    <td>{{data.FechaFinal | date : 'EEEE, MMMM d, y, h:mm a' }}</td>
+    <td>{{ data.Dependencia?.Nombre}} </td>
+    <td>{{ data.Anio}}</td>
+    <td>
+        <a *ngIf="data.PlanArchivo"
+          [href]="data.PlanArchivo" target="_blank"
+          nz-button nzSize="large" nzType="link"><i nz-icon nzType="download"></i></a>
+    </td>
+    <td>{{ data.Status | status }}</td>
+    <td nzRight>
+      <div class="table-buttons">
+        <button *ngIf="data.IsEdit" nz-button nzDanger nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Elimimar plan anual" nzTooltipPlacement="top" nz-tooltip
+                nzPopconfirmTitle="¿estas seguro de eliminar el Plan?" (nzOnConfirm)="delete(data.Id)">
+          <i nz-icon nzType="delete"></i></button>
+
+        <button *ngIf="data.IsEdit" nz-button nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Actualizar plan anual" nzTooltipPlacement="top" nz-tooltip
+                (click)="update(data.Id)">
+          <i nz-icon nzType="edit"></i>
+        </button>
+        <button nz-button nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Ver Actividades del plan anual" nzTooltipPlacement="top" nz-tooltip
+                (click)="agregarActividades(data.Id, data.IsEdit)">
+                <i nz-icon nzType="form" nzTheme="outline"></i>
+        </button>
+        <button *ngIf="data.IsEdit" nz-button nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Subir archivo plan anual" nzTooltipPlacement="top" nz-tooltip
+                (click)="cargarArchivo(data.Id)">
+                <i nz-icon nzType="upload" nzTheme="outline"></i>
+        </button>
+        <button nz-button *ngIf="isAdmin && !data.IsEdit" style="background-color: green;" (click)="updateEdit(data.Id,true)" nzShape="circle" nz-popconfirm nzTooltipTitle="Habilitar edición" nzTooltipPlacement="top" nz-tooltip>
+          <i nz-icon nzType="check" nzTheme="outline"></i></button>
+          <button nz-button *ngIf="isAdmin && data.IsEdit" style="background-color: red;" (click)="updateEdit(data.Id,false)" nzShape="circle"nz-popconfirm nzTooltipTitle="Deshabilitar edición" nzTooltipPlacement="top" nz-tooltip>
+            <i nz-icon nzType="close" nzTheme="outline"></i></button>
+
+        <nz-modal [(nzVisible)]="fVisible" nzTitle="Cargar Plan Anual" nzWidth="700px"
+        (nzOnCancel)="cancelarCargaArchivo()" [nzContent]="modalContent" [nzFooter]="modalFooter"
+        >
+          <ng-template #modalContent>
+            <app-file-detail *ngIf="!loading"   title="Subir archivo plan anual" [typeFileDetail] ="typeDetailFile"
+                description="Cargar Plan Anual en formato PDF"
+                (setFile)="setFile($event)"
+                [fileUrl]="urlFile"
+                (editEvent)="updateFile($event)">
+            </app-file-detail>
+          </ng-template>
+
+          <ng-template #modalFooter></ng-template>
+
+        </nz-modal>
+
+        <div *ngIf="isAdmin && (data.Status == Status.Solicitado || data.Status == Status.Registrado)">
+          <button nz-button [nzType]="'primary'" nzType="dashed" nzShape="circle" (click)="showModal()" nzTooltipTitle="Aprobar plan anual" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzType="check-circle" nzTheme="outline"></i></button>
+          <nz-modal [(nzVisible)]="isVisible" nzTitle="Cambio status" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk(data.Id)">
+            <ng-container *nzModalContent>
+              <form action="" [formGroup]="form">
+                
+                <nz-form-item>
+                  <nz-form-control>
+                    <nz-form-label nzRequired>Estatus</nz-form-label>
+                    <nz-select formControlName="Status" >
+                      <nz-option  nzLabel="Aceptar" [nzValue]="Status.Aceptado"></nz-option>
+                      <nz-option  nzLabel="Rechazar" [nzValue]="Status.Rechazado"></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item *ngIf="form?.value.Status == Status.Rechazado" >
+                  <nz-form-control>
+                    <nz-form-label [nzSpan]="7" >Observacion</nz-form-label>
+                    <textarea formControlName="Observacion" nz-input rows="2" placeholder="Escriba su observacion"></textarea>
+                  </nz-form-control>
+                </nz-form-item>
+
+              </form>
+            </ng-container>
+          </nz-modal>
+        </div>
+
+      </div>
+
+    </td>
+  </tr>
+  </tbody>
+
+</nz-table>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input type="text" nz-input placeholder="Buscar dependencia" [(ngModel)]="searchValue" />
+      <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
+        Buscar
+      </button>
+      <button nz-button nzSize="small" (click)="reset()">Cancelar</button>
+    </div>
+  </div>
+</nz-dropdown-menu>
+

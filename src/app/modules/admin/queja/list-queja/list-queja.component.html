@@ -1,0 +1,57 @@
+<div nz-row *ngIf="!isAdmin" nzJustify="end" >
+  <button style="margin-left: 5px;" nz-button nzType="primary" nzSize='default' nzShape="round" (click)="nuevaQueja()"><i nz-icon nzType="plus" nzTheme="outline"></i>Nueva Queja</button>
+</div>
+<nz-table #basicTable nzOuterBordered nzShowSizeChanger [nzData]="dataDisplay" [nzPageSize]="20"
+          [nzScroll]="innerWidth" [nzLoading]="loading" nzTitle="Lista de quejas">
+
+  <thead>
+  <tr>
+    <th>Tipo</th>
+    <th>Fecha de Presentación</th>
+    <th>Contra Quien</th>
+    <th>Quien Interpone</th>
+    <th>Dependencia
+      <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+        <i nz-icon nzType="search"></i>
+      </nz-filter-trigger>
+    </th>
+    <th nzWidth ="120px" nzRight>Opciones</th>
+  </tr>
+  </thead>
+
+
+  <tbody>
+  <tr *ngFor="let data of basicTable.data">
+    <td>{{ data.Tipo | tipoQueja }}</td>
+    <td>{{ data.FechaPresentacion | date : 'EEEE, MMMM d, y, h:mm a'   }}</td>
+    <td>{{ data.Quejado }}</td>
+    <td>{{ data.Quejoso }}</td>
+    <td>{{ data.Dependencia.Nombre }}</td>
+    <td nzRight>
+      <div class="table-buttons">
+        <button nz-button nzDanger nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Elimimar queja" nzTooltipPlacement="top" nz-tooltip
+                nzPopconfirmTitle="¿estas seguro de eliminar la queja ?" (nzOnConfirm)="delete(data.Id)">
+          <i nz-icon nzType="delete"></i></button>
+
+        <!-- <button nz-button nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Actualizar queja" nzTooltipPlacement="top" nz-tooltip
+                (click)="update(data.Id)">
+          <i nz-icon nzType="edit"></i></button> -->
+      </div>
+
+    </td>
+  </tr>
+  </tbody>
+
+</nz-table>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input type="text" nz-input placeholder="Buscar dependencia" [(ngModel)]="searchValue" />
+      <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
+        Buscar
+      </button>
+      <button nz-button nzSize="small" (click)="reset()">Cancelar</button>
+    </div>
+  </div>
+</nz-dropdown-menu>

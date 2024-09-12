@@ -1,0 +1,30 @@
+  <nz-table #basicTable nzOuterBordered nzShowSizeChanger [nzData]="buzones" [nzPageSize]="20"
+    [nzScroll]="innerWidth" [nzLoading]="loading" nzTitle="Buzones de queja registrados">
+    <thead>
+      <tr>
+        <th>Dependencia</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th nzWidth ="120px">Extensión</th>
+        <th nzWidth ="120px" nzRight>Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{ data.Dependencia.Nombre }}</td>
+        <td>{{ data.Correo }}</td>
+        <td>{{ data.Telefono }}</td>
+        <td> {{ data.Ext}} </td>
+        <td nzRight>
+          <div class="table-buttons">
+              <button nz-button nzType="primary" nzShape="circle" nz-popconfirm nzTooltipTitle="Actualizar buzón" nzTooltipPlacement="top" nz-tooltip
+              (click)="update(data.DependenciaId)">
+              <i nz-icon nzType="edit"></i></button>
+          </div>
+  
+        </td>
+      </tr>
+    </tbody>
+  
+  </nz-table>
+  

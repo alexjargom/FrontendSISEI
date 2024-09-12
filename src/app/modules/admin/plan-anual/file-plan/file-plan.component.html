@@ -1,0 +1,8 @@
+<app-file-detail *ngIf="!loading"   title="Nuevo formato" [typeFileDetail] ="typeDetailFile"
+description="Cargar Plan Anual en formato PDF"
+(setFile)="setFile($event)"
+[dataFormUpdate] ="data" [fileUrl]="urlFile"
+(editEvent)="saveFile($event)"
+>
+
+</app-file-detail>

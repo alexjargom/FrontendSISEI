@@ -1,0 +1,32 @@
+.events {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .events .ant-badge-status {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    text-overflow: ellipsis;
+    font-size: 12px;
+  }
+
+  .notes-month {
+    text-align: center;
+    font-size: 28px;
+  }
+
+  .notes-month section {
+    font-size: 28px;
+  }
+
+//   .ant-picker-calendar-header .ant-picker-calendar-mode-switch {
+//     margin-left: 8px;
+//     z-index: 0 !important;
+// }
+
+.ant-radio-button-wrapper-checked:not([class*=' ant-radio-button-wrapper-disabled']).ant-radio-button-wrapper:first-child {
+  // border-right-color: #30568c;
+  z-index: 0;
+}

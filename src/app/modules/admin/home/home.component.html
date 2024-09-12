@@ -1,0 +1,26 @@
+<div nz-row nzJustify="center" *ngIf="recomendacion && !loading && !isAdmin" nzAlign="middle">
+    <div nz-col nzSpan="20" >
+        <nz-card nzHoverable nzType="inner" nzTitle="Ultima recomendación" [nzExtra]="extraTemplate" >
+            <p style="font-size: 18px; text-align: center;">{{recomendacion?.Tema?.Tema}}</p>
+            <p style="font-size: 18px; text-align: center;"> {{recomendacion?.Tema?.Descripcion}}</p>
+        </nz-card>
+    </div>
+</div>
+<ng-template #extraTemplate>
+    <button nz-button nzType="link" (click)="verRecomendacion()">Mas...</button>
+  </ng-template>
+<div *ngIf="!loading" nz-row>
+    <div nz-col nzSpan="12">
+        <nz-divider nzText="Sesiones del dia"></nz-divider>
+        <app-today-sesion></app-today-sesion>
+    </div>
+    <div nz-col nzSpan="12">
+        <nz-divider nzText="Calendario de sesiones"></nz-divider>
+        <app-calendario [sesionesCalendar]="sesiones" [fullCalendar]='false'></app-calendario>
+    </div>
+</div>
+
+<div *ngIf="!loading && isAdmin">
+    <nz-divider nzText="Notificaciónes"></nz-divider>
+    <app-list-notificacion></app-list-notificacion>
+</div>

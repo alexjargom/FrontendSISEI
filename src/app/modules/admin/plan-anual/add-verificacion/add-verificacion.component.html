@@ -1,0 +1,17 @@
+<button nz-button [nzType]="'primary'" nzShape="circle" (click)="showModal()"nzTooltipTitle="Agregar verificación de actividad" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzType="plus-circle" nzTheme="outline"></i></button>
+<nz-modal nzWidth="900px" [nzStyle]="{ top: '20px' }" [nzContent]="modalContent" [nzFooter]="modalFooter"
+[(nzVisible)]="isVisible" nzTitle="Registrar Verificación Actividad" 
+(nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+
+<ng-template #modalContent>
+    <app-file-detail *ngIf="!loading"   title="Verficacion de Actividad" [typeFileDetail] ="typeDetailFile"
+            [dataFormUpdate]="datos"
+            description="Cargar Archivo"
+            (setFile)="setFile($event)"
+            [fileUrl]="urlFile"
+            (formValue) = "formComplete($event)">
+    </app-file-detail>
+</ng-template>
+<ng-template #modalFooter>
+</ng-template>
+</nz-modal>

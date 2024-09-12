@@ -1,0 +1,17 @@
+.titulo{
+    // position: fixed;
+    width: 100%;
+    // height: 4rem;
+    text-align: center;
+    background-color: transparent;
+}
+.fondo {
+    background-color:transparent;
+}
+.ant-col {
+    position: relative;
+    max-width: 100%;
+    min-height: 1px;
+    max-height: 520px;
+    overflow: auto;
+}

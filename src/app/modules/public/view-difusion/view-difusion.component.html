@@ -1,0 +1,28 @@
+
+<div nz-row nzJustify="center" *ngIf="!loading"  >
+    <div nz-col   class="titulo" >
+        <div nz-col >
+            <h3>{{ Dependencia.Nombre | uppercase}}</h3>
+        </div>
+        <div nz-row nzJustify="center" >
+            <div nz-col style="margin-left: 6rem;" >
+                <h3>{{ Dependencia.Siglas | uppercase}}</h3>
+            </div>
+            <div nz-col style="margin-left: 2rem;" >
+                <label for="">Año: </label>
+                <nz-select nzSize="default" class="fondo" [ngModel]="anioSel" style="width: 5rem; background-color: rgba(128, 128, 128, 0.08);" (ngModelChange)="cambioSelect($event)">
+                    <nz-option *ngFor="let anio of anios" [nzValue]="anio" nzLabel="{{anio}}"></nz-option>
+                </nz-select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div nz-row>
+</div>
+<div nz-row nzJustify="center" class="fondo" *ngIf="!loading" >
+    <div nz-col  >
+        <app-card-difusion *ngFor="let dif of Difusiones" [difusion]="dif" [isPublic]="true"></app-card-difusion>
+    </div>
+
+</div>

@@ -1,0 +1,11 @@
+<div nz-row *ngIf="isAdmin" nzJustify="end" >
+  <button style="margin-left: 5px;" nz-button nzType="primary" nzSize='default' nzShape="round" (click)="nuevoFormato()"><i nz-icon nzType="plus" nzTheme="outline"></i>Nuevo Formato</button>
+</div>
+<ng-container *ngIf="!loading">
+  <app-file-detail *ngFor="let item of data;" [title]="item.Nombre" [typeFileDetail]="typeDetailFile"
+                   [description]="item.Descripcion" [fileUrl]="item.Archivo" (deleteEvent)="delete(item.Id)"
+                   (editEvent)="update(item.Id)">
+  </app-file-detail>
+
+  <nz-empty *ngIf="data.length==0" nzNotFoundImage="simple" nzNotFoundContent="No hay formatos disponibles"></nz-empty>
+</ng-container>

@@ -1,0 +1,70 @@
+<div nz-row *ngIf="!loading">
+  <p style="text-align: justify;">En este apartado se deberán cargar en formato PDF, las actas de integración, sesiones ordinarias y extraordinarias celebradas en el CEPCI, así como su PAT debidamente requisitados. </p>
+</div>
+<nz-divider></nz-divider>
+<nz-collapse *ngIf="!loading">
+  <nz-collapse-panel nzHeader="Archivos Anuales" [nzActive]="true" [nzDisabled]="false">
+    <div style="margin-bottom: 10px;">
+      <nz-form-label>Año</nz-form-label>
+      <nz-select style="width: 30%;" [(ngModel)]='anio' (ngModelChange)="changeAnio($event)">
+        <nz-option *ngFor="let item of anios" [nzValue]='item' [nzLabel]='item.toString()'></nz-option>
+      </nz-select>
+      <div *ngIf="isAdmin">
+        <nz-form-label>Dependencia</nz-form-label>
+        <nz-select style="width: 30%;" [(ngModel)]='idDep' (ngModelChange)="changeDep($event)">
+          <nz-option *ngFor="let item of dependencias" [nzValue]='item.Id' [nzLabel]='item.Nombre'></nz-option>
+        </nz-select>
+      </div>
+    </div>
+
+      <ul nz-list [nzDataSource]="controlAnual" nzBordered nzSize="large">
+        <li nz-list-item *ngFor="let item of controlAnual" nzNoFlex>
+          <ul nz-list-item-actions *ngIf="item.permitidos > item.files.length">
+            <nz-list-item-action>
+              <a *ngIf="!isAdmin" (click)="nuevaDocumentacion(item.tipo)"><i nz-icon nzType="file-add" nzTheme="outline"  style="color: green;font-size: 16px; "></i>Nuevo</a>
+            </nz-list-item-action>
+          </ul>
+          <div nz-col>
+              {{ item.name }}
+          </div>
+          <div nz-row *ngFor="let file of item.files">
+            <a [href]="file.Archivo" target="_blank" > <i nz-icon nzType="file" nzTheme="outline"></i>Archivo</a>
+            <div style="margin-left: 100px;">
+              <a *ngIf="!isAdmin" (click)="delete(file.Id)" ><i nz-icon nzType="delete" nzTheme="outline"></i></a>
+              <a *ngIf="isAdmin && !file.IsEdit" (click)="updateEdit(file.Id,true)"><i nz-icon nzType="check-circle" nzTheme="outline"></i></a>
+              <a *ngIf="isAdmin && file.IsEdit" (click)="updateEdit(file.Id,false)"><i nz-icon nzType="close-circle" nzTheme="outline"></i></a>
+            </div>
+          </div>
+          
+        </li>
+      </ul>
+
+  </nz-collapse-panel>
+</nz-collapse>
+
+<nz-collapse *ngIf="!loading">
+  <nz-collapse-panel nzHeader="Archivos Permanentes" [nzActive]="true" [nzDisabled]="false">
+     
+      <ul nz-list [nzDataSource]="controlPermanente" ngSwitch="" nzBordered nzSize="large">
+          <li nz-list-item *ngFor="let item of controlPermanente" nzNoFlex>
+            <ul nz-list-item-actions *ngIf="!isAdmin">
+              <nz-list-item-action *ngIf="item.files.length > 0;else  elseBlock">
+                <a (click)="update(item.files[0].Id)">Actualizar</a>
+              </nz-list-item-action>
+              <ng-template #elseBlock >
+                <nz-list-item-action >
+                  <a (click)="nuevaDocumentacion(item.tipo)">Nuevo</a>
+                </nz-list-item-action>
+              </ng-template>
+
+            </ul>
+            <div nz-col>
+                {{ item.name}}
+            </div>
+            <a *ngFor="let file of item.files" [href]="file.Archivo" target="_blank" > <i nz-icon nzType="file" nzTheme="outline"></i></a>
+          </li>
+        </ul>
+
+      
+  </nz-collapse-panel>
+</nz-collapse>

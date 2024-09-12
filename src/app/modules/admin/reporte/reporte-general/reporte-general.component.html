@@ -1,0 +1,86 @@
+<app-back-button ></app-back-button>
+<div nz-row style="margin-bottom: 2rem;">
+    <div nz-col [nzSpan]="6">
+      <nz-select style="width: 100%;" nzShowSearch nzAllowClear nzPlaceHolder="Selecciona dependencia" [(ngModel)]="dependencia">
+        <nz-option nzLabel="Todas" nzValue=""></nz-option>
+        <nz-option *ngFor="let item of dependencias" [nzLabel]="item.Nombre" [nzValue]="item.Id"></nz-option>
+      </nz-select>
+    </div>
+    <div nz-col [nzSpan]="6">
+      <nz-select style="width: 100%;" [(ngModel)]='anio'>
+        <nz-option *ngFor="let item of anios" [nzValue]='item' [nzLabel]='item.toString()'></nz-option>
+      </nz-select>
+    </div>
+    <div nz-col [nzSpan]="6">
+      <button [disabled]="anio == 0" nz-button nz-type="default" (click)="generarReporte()">
+        <i nz-icon nzType="search"></i>
+        Buscar
+      </button>
+    </div>
+    <div nz-col [nzSpan]="6">
+        <button style="width: 100%;" [disabled]="data.length == 0 " nz-button nz-type="default" (click)="descargarReporte()">
+            <i nz-icon nzType="download"></i>
+            Descargar
+        </button>
+    </div>
+  </div>
+<nz-table #basicTable [nzData]="data" [nzScroll]="{ x: '1550px', y: '500px' }" >
+    <thead>
+      <tr>
+        <th nzLeft>Dependencia</th>
+        <th nzLeft>Siglas</th>
+        <th>Conformación Distinta </th>
+        <th>Integrantes cargados</th>
+        <th>Cantidad integrantes</th>
+        <th>Codigo de conducta</th>
+        <th>Plan anual</th>
+        <th>Informe anual</th>
+        <th>Protocolo Quejas/Denuncias</th>
+        <th>Bases de Integración de CEPCI</th>
+        <th>Difusiones</th>
+        <th>Sesiones Ord.</th>
+        <th>Sesiones Extra Ord.</th>
+        <th>Acta Ses. Ord.</th>
+        <th>Acta Ses. Extra.</th>
+        <th>Comisionado.</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td nzLeft>{{data.Dependencia.Nombre}}</td>
+        <td nzLeft>{{data.Dependencia.Siglas}}</td>
+        <td> 
+          <nz-badge [nzStatus]="data.ConformacionDistinta? 'success':'error'" [nzText]="data.ConformacionDistinta? 'Si':'No'"></nz-badge>
+        </td>
+        <td> 
+            <nz-badge [nzStatus]="data.IntegrantesCargardos? 'success':'error'" [nzText]="data.IntegrantesCargardos? 'Cargado':'No cargado'"></nz-badge>
+        </td>
+        <td>{{data.CantidadIntegrantes}}</td>
+        <td>
+            <nz-badge [nzStatus]="data.CodigoConducta? 'success':'error'" [nzText]="data.CodigoConducta? 'Cargado':'No cargado'"></nz-badge>
+        </td>
+        <td>
+            <nz-badge [nzStatus]="data.PlanAnual? 'success':'error'" [nzText]="data.PlanAnual? 'Cargado':'No cargado'"></nz-badge>
+        </td>
+        <td>
+            <nz-badge [nzStatus]="data.InformeActividades? 'success':'error'" [nzText]="data.InformeActividades? 'Cargado':'No cargado'"></nz-badge>
+        </td>
+        <td>
+          <nz-badge [nzStatus]="data.ProtocoloQuejas? 'success':'error'" [nzText]="data.ProtocoloQuejas? 'Cargado':'No cargado'"></nz-badge>
+        </td>
+        <td>
+          <nz-badge [nzStatus]="data.BasesIntegracion? 'success':'error'" [nzText]="data.BasesIntegracion? 'Cargado':'No cargado'"></nz-badge>
+        </td>
+        <td>
+          <nz-badge [nzStatus]="data.BasesIntegracion? 'success':'error'" [nzText]="data.BasesIntegracion? 'Cargado':'No cargado'"></nz-badge>
+        </td>
+        <td>{{data.CantidadDifusion}}</td>
+        <td>
+          {{data.SesionesOrdinarias}}
+        </td>
+        <td>{{data.SesionesEstraordinarias}}</td>
+        <td>{{data.ActaSesionOrd}}</td>
+        <td>{{data.ActaSesionExtra}}</td>
+      </tr>
+    </tbody>
+  </nz-table>

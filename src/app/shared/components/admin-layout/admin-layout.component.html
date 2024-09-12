@@ -1,0 +1,73 @@
+<nz-layout>
+
+  <nz-sider class="sidebar" nzCollapsible nzWidth="200px" nzTheme='light'>
+    <div class="logo"></div>
+
+    <ul nz-menu nzMode="inline">
+      <ng-container *ngTemplateOutlet="menuTplL; context: { $implicit: menus }"></ng-container>
+      <ng-template #menuTplL let-menus>
+        <ng-container *ngFor="let menu of menus">
+
+          <li *ngIf="!menu.children" nz-menu-item [routerLink]="menu.RouterLink" nzMatchRouter="true"
+            nzMatchRouterExact="true" (click)="actionMenu(menu.RouterLink)">{{ menu.title }}</li>
+
+          <li *ngIf="menu.children" nz-submenu nz-menu-item [nzTitle]="menu.title" [nzIcon]="menu.icon">
+            <ul>
+              <ng-container *ngTemplateOutlet="menuTplL; context: { $implicit: menu.children }"></ng-container>
+            </ul>
+          </li>
+        </ng-container>
+      </ng-template>
+    </ul>
+
+  </nz-sider>
+
+  <nz-layout class="layout">
+
+    <nz-header class="navbar">
+      <div>
+        <div class="logo">
+          <img src="../../../../assets/images/sisei_nav.png" alt="">
+        </div>
+        <ng-container *ngTemplateOutlet="menuHzl"></ng-container>
+      </div>
+    </nz-header>
+
+    <nz-content>
+      <!--
+      <nz-breadcrumb>
+      </nz-breadcrumb>
+      -->
+
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+    <nz-footer> Oaxaca.gob.mx SHTFP©2024</nz-footer>
+  </nz-layout>
+
+</nz-layout>
+
+<ng-template #menuHzl>
+  <ul nz-menu nzMode="horizontal">
+    <ng-container *ngTemplateOutlet="menuTpl; context: { $implicit: menus }"></ng-container>
+    <ng-template #menuTpl let-menus>
+      <ng-container *ngFor="let menu of menus">
+
+        <li *ngIf="!menu.children" nz-menu-item [routerLink]="menu.RouterLink" nzMatchRouter="true" [style]="menu.style"
+          nzMatchRouterExact="true" (click)="actionMenu(menu.RouterLink)"> <i *ngIf="menu.level == 1" nz-icon
+            [nzType]="menu.icon"></i> {{ menu.title }}
+        </li>
+
+        <li *ngIf="menu.children" nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon">
+          <ul>
+            <li nz-menu-group [nzTitle]="menu.childrenTitle">
+              <ul>
+                <ng-container *ngTemplateOutlet="menuTpl; context: { $implicit: menu.children }"></ng-container>
+              </ul>
+            </li>
+          </ul>
+      </ng-container>
+    </ng-template>
+  </ul>
+</ng-template>

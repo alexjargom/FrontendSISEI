@@ -1,0 +1,114 @@
+.layout {
+  min-height: 100vh;
+  background: white;
+  background-image: url('../../../../assets/images/bg-login.png');
+  // font-family: 'Univia-book', Times, serif;
+}
+
+.logo {
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  float: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  img{
+    overflow: hidden;
+    width: 120px;
+    height: auto;
+  }
+}
+
+nz-header {
+  position: fixed;
+  width: 100%;
+  box-shadow: 0px 0px 8px rgba(0,0,0,.6);
+  z-index: 1;
+}
+
+[nz-menu] {
+  line-height: 64px;
+  background-color:#545454;
+}
+
+nz-content {
+  padding: 0 32px;
+  margin-top: 64px;
+}
+
+nz-breadcrumb {
+  margin: 16px 0;
+}
+
+.inner-content {
+  background: transparent;
+  padding: 32px 16px;
+  min-height: 380px;
+}
+
+nz-footer {
+  text-align: center;
+  background: #f3f3f3;
+}
+
+nz-header {
+  background: #fff;
+  padding: 0;
+}
+
+.sidebar {
+  display: none;
+  border-right: 1px solid #f0f0f0;
+}
+
+.navbar li{
+  color: #9d9d9d;
+}
+
+.navbar li:hover, .navbar li:focus, .navbar li:active{
+  color: #fff !important;
+}
+
+[nz-submenu] span:hover{
+  color: #fff !important;
+}
+
+.ant-menu-item:focus, .ant-menu-item-active, .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open, .ant-menu-submenu-active, .ant-menu-submenu-title:focus {
+  color: white !important;
+}
+
+@media only screen and(max-width: 1074px) {
+  .navbar {
+    display: none;
+  }
+   .sidebar {
+     display: block;
+   }
+   nz-header {
+     box-shadow:none;
+   }
+   nz-content {
+     margin-top: 16px;
+     padding: 16px;
+   }
+    .inner-content {
+      padding: 16px;
+    }
+}
+
+// .ant-menu-horizontal > .ant-menu-item:hover, .ant-menu-horizontal > .ant-menu-item-active, .ant-menu-horizontal > .ant-menu-submenu .ant-menu-submenu-title:hover {
+//   background-color: transparent;
+//   color: white !important;
+// }
+
+// sub-menu:hover {
+//   background-color: transparent;
+//   color: white !important;
+// }

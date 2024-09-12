@@ -1,0 +1,161 @@
+<app-back-button></app-back-button>
+<div class="table-operations" *ngIf="!loading">
+    <button nz-button (click)="addRow()" nzType="primary" nzTooltipTitle="Agregar actividad" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzType="plus" nzTheme="outline"></i>Add</button>
+    <button nz-button (click)="verAvance()" nzTooltipTitle="Ver avance" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzType="pie-chart" nzTheme="outline"></i>Avance</button>
+    <app-documento [plan]="Plan" [data]="listOfData" nzTooltipTitle="Generar archivo plan anual" nzTooltipPlacement="top" nz-tooltip ></app-documento>
+</div>
+<!-- [nzScroll]="innerWidth" -->
+<form action="" [formGroup]="form" *ngIf="!loading" autocomplete="off">
+    <nz-table #editRowTable nzBordered [nzData]="listOfData" [nzScroll]="{ x: '1550px', y: '500px' }">
+        <thead>
+          <tr>
+            <th nzLeft >Tema</th>
+            <th >Objetivo</th>
+            <th >Metas</th>
+            <th >Actividades</th>
+            <th >Fecha</th>
+            <th >Fecha Conclusión</th>
+            <th >Verificación</th>
+            <th >Factor de riesgo</th>
+            <th nzRight>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr  *ngFor="let data of editRowTable.data">
+            <ng-container *ngIf="!editCache[data.Id]?.edit; else editTemplate">
+              <td nzLeft> {{data.Nombre}}</td>
+              <td>{{ data.Objetivo}}</td>
+              <td>{{data.Meta}} </td>
+              <td>
+                  <div nzRow *ngFor="let item of separarActividades(data.Actividades)"  >
+                      <nz-badge nzColor="blue" >{{item}}</nz-badge>
+                  </div>
+              </td>
+              <td> {{ data.Fecha | date : 'EEEE, MMMM d, y' }} </td>
+              <td> {{data.FechaConclusion | date:'EEEE, MMMM d, y'}} </td>
+              <td >
+                <nz-badge *ngFor="let item of data.Verificacion" nzColor="blue" >{{ item.Nombre }}
+                    <div nzRow>
+                        <a
+                        *ngIf="item.Archivo"
+                        [href]="item.Archivo" target="_blank" nzShape="circle"
+                        nz-button nzSize="large" nzType="link"><i nz-icon nzType="download"></i>
+                        </a>
+                    </div>
+                </nz-badge>
+              </td>
+              <td>
+                  <div nzRow *ngFor="let item of separarActividades(data.FactorRiesgo)">
+                      <nz-badge nzColor="blue">{{item}}</nz-badge>
+                  </div>
+              </td>
+                <td nzRight >
+                    <div class="table-buttons">
+                        <button nz-button nzType="default"(click)="startEdit(data.Id)" nzShape="circle" nzTooltipTitle="Editar actividad" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzType="edit"></i></button>
+                        <button nz-button nzDanger nzType="default" nzShape="circle" (click)="elimiarActividad(data.Id)" nzTooltipTitle="Elimimar actividad" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzType="delete"></i></button>
+                    </div>
+                </td>
+            </ng-container>
+            <ng-template  #editTemplate>
+                <td nzLeft>
+                    <nz-form-item>
+                        <nz-form-control>
+                            <textarea nz-input rows="10" formControlName="Nombre"  name="Nombre" [readonly]="data.esDefault" ></textarea>
+                        </nz-form-control>
+                    </nz-form-item>
+                </td>
+                <td>
+                    <nz-form-item>
+                        <nz-form-control>
+                            <textarea nz-input rows="10" formControlName="Objetivo"  name="Objetivo" [readonly]="data.esDefault"></textarea>
+                        </nz-form-control>
+                    </nz-form-item>
+                </td>
+                <td>
+                    <nz-form-item>
+                        <nz-form-control>
+                            <textarea nz-input rows="10" formControlName="Meta" name="meta" [readonly]="!isEdit" ></textarea>
+                        </nz-form-control>
+                    </nz-form-item>
+                </td>
+                <!-- <td>
+                    <nz-form-item>
+                        <nz-form-control>
+                            <textarea nz-input formControlName="Indicador" name="indicador" ></textarea>
+                        </nz-form-control>
+                    </nz-form-item>
+                </td> -->
+                <td>
+                    <nz-form-item>
+                        <nz-form-control>
+                            <textarea nz-input rows="10" formControlName="Actividades" [readonly]="!isEdit"></textarea>
+                        </nz-form-control>
+                    </nz-form-item>
+                </td>
+                <td>
+                    <nz-form-item>
+                        <nz-form-control>
+                            <nz-date-picker formControlName="Fecha" [nzInputReadOnly]="!isEdit" ></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </td>
+                <td>
+                    <nz-form-item>
+                        <nz-form-control>
+                            <nz-date-picker formControlName="FechaConclusion" [nzInputReadOnly]="!isEdit" ></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </td>
+                <td>
+                    <div nz-row *ngFor="let item of verifisAct ">
+                        <nz-badge  nzColor="blue" >{{item.Nombre}}
+                        </nz-badge>
+                        <div nz-row class="table-buttons">
+                            <a
+                                *ngIf="item.Archivo"
+                                [href]="item.Archivo" target="_blank" nzShape="circle"
+                                nz-button nzSize="large" nzType="link"><i nz-icon nzType="download"></i>
+                        </a>
+                        <!-- <button *ngIf="!item.cargado" nz-button nzType="default" (click)="pruebaVerificacion()" > + </button> -->
+                        <nz-form-item *ngIf="Plan.Status == Status.Aceptado && !item.cargado" >
+                            <app-add-verificacion (actualiza)="getData()" [idActividad]="item.IdActividad" [datos]="{Nombre: item.Nombre, Descripcion: item.Nombre}" ></app-add-verificacion>
+                        </nz-form-item>
+                        <button *ngIf="item.cargado" nz-button nzDanger nzType="default" nzShape="circle" (click)="eliminarVerificacion(item.Id)" nzTooltipTitle="Elimimar verificacion" nzTooltipPlacement="top" nz-tooltip ><i nz-icon nzType="delete"></i></button>
+                        </div>
+                        
+                    </div>
+                    
+                    
+                </td>
+                <td>
+                    <nz-form-item>
+                        <nz-form-control>
+                            <textarea nz-input formControlName="FactorRiesgo" name="Factor" rows="10" [readonly]="!isEdit"></textarea>
+                        </nz-form-control>
+                    </nz-form-item>
+                </td>
+
+              <td nzRight>
+                  <div class="table-buttons">
+                      <a (click)="saveEdit(data.Id)" class="save">Ok</a>
+                      <a (click)="cancelEdit(data.Id)" class="cancel" >Cancelar</a>
+                  </div>
+              </td>
+    
+            </ng-template>
+          </tr>
+        </tbody>
+    </nz-table>
+</form>
+
+<!-- modal de avances plan -->
+<nz-modal nzWidth="900px" [nzStyle]="{ top: '20px' }" [nzContent]="modalContent" [nzFooter]="modalFooter"
+[(nzVisible)]="isVisible"
+(nzOnCancel)="handleCancel()" >
+
+<ng-template #modalContent>
+    <app-avance-plan></app-avance-plan>
+</ng-template>
+<ng-template #modalFooter>
+</ng-template>
+</nz-modal>

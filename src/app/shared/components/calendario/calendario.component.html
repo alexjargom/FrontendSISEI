@@ -1,0 +1,38 @@
+<div nz-row nzJustify="center">
+  <div nz-col nzLg="20" nzSpan="10">
+        
+        <nz-calendar [nzFullscreen]= fullCalendar >
+            <ul *nzDateCell="let date" class="events">
+              <ng-container [ngSwitch]="date.getDate()">
+                <ng-container *ngIf="getDayData(date) as d" >
+                  <li *ngFor="let se of d">
+                    <a [nzPopoverContent]="popOverContent" nz-popover style="margin: 0;">
+                      <nz-badge [nzStatus]="status" [nzText]=""></nz-badge>
+                    </a>
+
+                    <ng-template #popOverContent>
+                        <p nz-paragraph>
+                          <Span nz-text> <strong>Tema</strong></Span>
+                          {{ se.Tema }}
+                        </p>
+                        <p nz-paragraph>
+                          <Span nz-text> <strong>Fecha</strong></Span>
+                          {{ time.formatDateComplete(se.Fecha)}}
+                        </p>
+                        <p nz-paragraph>
+                          <Span nz-text> <strong>Lugar</strong></Span>
+                          {{ se.Lugar }}
+                        </p>
+                        <p nz-paragraph>
+                          <Span nz-text> <strong>Enlace</strong></Span>
+                          {{ se.Enlace }}
+                        </p>
+                    </ng-template>
+                  </li>
+                </ng-container>
+              </ng-container>
+            </ul>
+        </nz-calendar>
+
+    </div>
+</div>

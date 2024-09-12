@@ -1,0 +1,31 @@
+
+<div nz-row nzJustify="center" >
+    <h1>
+      {{ title }}
+    </h1>
+</div>
+
+<div nz-row nzJustify="center"  *ngIf="!loading" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }" >
+    <div nz-col nzSpan="12" *ngFor="let act of allGraf; let i = index" >
+        <div nz-row >
+            <h3>{{ act.Nombre}} </h3>
+        </div>
+        <div nz-row>
+            <h4>{{act.Objetivo}}</h4>
+        </div>
+        <div nz-row>
+            <ngx-charts-pie-chart
+                [view]="view"
+                [scheme]=" i == allGraf.length-1? colorPrincipal: colorScheme"
+                [results]="act.Data"
+                [gradient]="gradient"
+                [legend]="showLegend"
+                [legendPosition]="legendPosition"
+                legendTitle="Avance"
+                [labels]="showLabels"
+                [doughnut]="isDoughnut"
+                >
+            </ngx-charts-pie-chart>
+        </div>
+    </div>
+</div>

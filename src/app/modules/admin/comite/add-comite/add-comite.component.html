@@ -1,0 +1,101 @@
+
+<div *ngIf="!loading" nz-row nzJustify="center">
+  <div nz-col nzLg="12" nzSpan="20" >
+
+    <h1 nz-typography>
+      Registrar Integrante de comité
+    </h1>
+
+  <form nz-form nzLayout="vertical" [formGroup]="form" autocomplete="off">
+
+    <nz-form-item>
+      <nz-form-label nzRequired>Nombre</nz-form-label>
+      <nz-form-control>
+        <input nz-input formControlName="Nombre" name="Nombre" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired>Primer apellido</nz-form-label>
+      <nz-form-control>
+        <input nz-input  formControlName="PrimerApellido" name="PrimerApellido" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label>Segundo apellido</nz-form-label>
+      <nz-form-control>
+        <input nz-input  formControlName="SegundoApellido" name="SegundoApellido" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired>Cargo en la dependencia</nz-form-label>
+      <nz-form-control>
+        <input nz-input  formControlName="CargoDependencia" name="CargoDependencia" />
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <!-- <nz-form-item>
+      <nz-form-label nzRequired>Departamento</nz-form-label>
+      <nz-form-control >
+        <input nz-input  formControlName="Departamento" name="Departamento" />
+      </nz-form-control>
+    </nz-form-item> -->
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="Correo" >Correo</nz-form-label>
+      <nz-form-control nzErrorTip="Introduzca una dirección de correo electrónico válida!">
+        <input nz-input  formControlName="Correo" name="Correo" type="email" />
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-form-item>
+      <nz-form-label nzRequired>Celular</nz-form-label>
+      <nz-form-control nzErrorTip="Numero de 10 dígitos">
+        <input nz-input   nzOverlayClassName="numeric-input" maxlength="10" minlength="10" formControlName="Celular" name="Celular" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="phoneNumber">  Teléfono de oficina </nz-form-label>
+      <nz-form-control nzErrorTip="Numero de 10 dígitos para el teléfono y 5 para la extensión">
+        <nz-input-group nzCompact>
+          <input nz-input  formControlName="TelOficina" name="TelOficina" placeholder="Teléfono" maxlength="10" style="width:calc(100% - 100px );" />
+          <input nz-input  formControlName="ExtOficina" name="ExtOficina" placeholder="Extensión" maxlength="5" style="width:100px;"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label >Dependencia</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <nz-select name="select-error" formControlName="DependenciaId">
+          <nz-option *ngFor="let option of dependencias" [nzLabel]="option.Nombre" [nzValue]="option.Id"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-form-item>
+      <nz-form-label >Tipo de cargo</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <nz-select name="select-error" formControlName="CargoId">
+          <nz-option *ngFor="let option of cargos" [nzLabel]="option.Basic.Nombre" [nzValue]="option.Id"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-form-item>
+      <nz-form-control [nzSpan]="12">
+        <button nz-button nzType="primary" (click)="submitForm()">Registrar</button>
+      </nz-form-control>
+    </nz-form-item>
+
+    </form>
+
+  </div>
+</div>

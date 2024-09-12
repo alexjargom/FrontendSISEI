@@ -1,0 +1,67 @@
+<app-back-button></app-back-button>
+<div *ngIf="!loading" nz-row nzJustify="center">
+  <div nz-col nzLg="12" nzSpan="20">
+
+    <h1 nz-typography>
+      Registrar Sesión
+    </h1>
+
+    <form nz-form nzLayout="vertical" [formGroup]="form" autocomplete="off">
+      <nz-form-item>
+        <nz-form-label nzRequired>Tema</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="Tema" name="Tema"/>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Descripción</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="Descripcion" name="Descripcion"/>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Lugar</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="Lugar" name="Lugar"/>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Fecha</nz-form-label>
+        <nz-date-picker formControlName="Fecha" nzFormat="yyyy-MM-dd HH:mm" [nzDisabledDate]="disabledDate"
+                        [nzDisabledTime]="disabledDateTime"
+                        [nzShowTime]="{ nzDefaultOpenValue: timeDefaultValue }">
+
+        </nz-date-picker>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label>Enlace</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="Enlace" name="Enlace"/>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Tipo</nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="Tipo" name="Tipo">
+            <nz-option [nzValue]="1" nzLabel="Ordinario"></nz-option>
+            <nz-option [nzValue]="2" nzLabel="Extraordinario"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control [nzSpan]="12">
+          <button nz-button nzType="primary" (click)="submitForm()">Registrar</button>
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+
+  </div>
+</div>
+`

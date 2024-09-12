@@ -1,0 +1,29 @@
+<div nz-row >
+    <nz-form-label>Mostrar Por</nz-form-label>
+    <nz-select [(ngModel)]="selectFiltro" (ngModelChange)="selectChange()" style="width: 150px;">
+        <nz-option nzValue="a" nzLabel="Año" ></nz-option>
+        <nz-option nzValue="b" nzLabel="Trimestre"></nz-option>
+    </nz-select>
+    <nz-select [(ngModel)]="selectTipo" (ngModelChange)="selectChange()" style="width: 150px; margin-left: 10px;">
+      <nz-option nzValue="a" nzLabel="Queja" ></nz-option>
+      <nz-option nzValue="b" nzLabel="Denuncia"></nz-option>
+  </nz-select>
+</div>
+<ngx-charts-line-chart *ngIf="!loading"
+  [view]="view"
+  [scheme]="colorScheme"
+  [legend]="legend"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxis]="xAxis"
+  [yAxis]="yAxis"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  [timeline]="timeline"
+  [results]="multi"
+  [legendTitle]="legTitulo" 
+  (select)="onSelect($event)"
+  (activate)="onActivate($event)"
+  (deactivate)="onDeactivate($event)"
+  >
+</ngx-charts-line-chart>

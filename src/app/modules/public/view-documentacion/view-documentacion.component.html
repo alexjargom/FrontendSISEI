@@ -1,0 +1,35 @@
+<nz-collapse *ngIf="!loading">
+  <nz-collapse-panel nzHeader="Archivos Anuales" [nzActive]="true" [nzDisabled]="false">
+    <div style="margin-bottom: 10px;">
+      <nz-form-label>Año</nz-form-label>
+      <nz-select style="width: 30%;" [(ngModel)]='anio' (ngModelChange)="changeAnio($event)">
+        <nz-option *ngFor="let item of anios" [nzValue]='item' [nzLabel]='item.toString()'></nz-option>
+      </nz-select>
+    </div>
+
+      <ul nz-list [nzDataSource]="controlAnual" nzBordered nzSize="large">
+        <li nz-list-item *ngFor="let item of controlAnual" nzNoFlex>
+          <div nz-col>
+              {{ item.name }}
+          </div>
+          <div nz-row *ngFor="let file of item.files">
+            <a [href]="file.Archivo" target="_blank" > <i nz-icon nzType="file" nzTheme="outline"></i>Archivo</a>
+          </div>
+        </li>
+      </ul>
+
+  </nz-collapse-panel>
+</nz-collapse>
+
+<nz-collapse *ngIf="!loading">
+  <nz-collapse-panel nzHeader="Archivos Permanentes" [nzActive]="true" [nzDisabled]="false">
+      <ul nz-list [nzDataSource]="controlPermanente" ngSwitch="" nzBordered nzSize="large">
+          <li nz-list-item *ngFor="let item of controlPermanente" nzNoFlex>
+            <div nz-col>
+                {{ item.name}}
+            </div>
+            <a *ngFor="let file of item.files" [href]="file.Archivo" target="_blank" > <i nz-icon nzType="file" nzTheme="outline"></i></a>
+          </li>
+        </ul>
+  </nz-collapse-panel>
+</nz-collapse>

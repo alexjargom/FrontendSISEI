@@ -1,0 +1,54 @@
+<div>
+  <app-back-button *ngIf="isAdmin"></app-back-button>
+</div>
+<div *ngIf="!loading" nz-row nzJustify="center">
+    <div nz-col nzLg="12" nzSpan="20" >
+  
+      <h1 nz-typography>
+        Registrar Buzón de Quejas
+      </h1>
+  
+    <form nz-form nzLayout="vertical" [formGroup]="form" autocomplete="off">
+  
+      <nz-form-item>
+        <nz-form-label nzRequired>Correo</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="Correo" name="Correo" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="phoneNumber" nzRequired>  Teléfono de oficina </nz-form-label>
+        <nz-form-control nzErrorTip="Numero de 10 dígitos para el teléfono y 5 para la extensión">
+          <nz-input-group nzCompact>
+            <input nz-input  formControlName="Telefono" placeholder="Teléfono" maxlength="10" style="width:calc(100% - 100px );" />
+            <input nz-input  formControlName="Ext" placeholder="Extensión" maxlength="5" style="width:100px;"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Persona Consejera</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="NombreConsejero" name="NombreConsejero" />
+        </nz-form-control>
+      </nz-form-item>
+      
+      <nz-form-item>
+        <nz-form-label nzRequired>Telefono de la persona consejera </nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="TelefonoConsejero" name="TelefonoConsejero" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control [nzSpan]="12">
+          <button nz-button nzType="primary" (click)="submitForm()">Registrar</button>
+        </nz-form-control>
+      </nz-form-item>
+  
+      </form>
+  
+    </div>
+  </div>
+  

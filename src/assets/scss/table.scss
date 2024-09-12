@@ -1,0 +1,10 @@
+.table-buttons {
+  text-align: center;
+  [nz-button] {
+    margin-right: 8px;
+  }
+}
+
+.ant-table {
+  z-index: 0;
+}

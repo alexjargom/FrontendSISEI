@@ -1,0 +1,70 @@
+<div nz-row nzJustify="center" *ngIf="!loading">
+    <nz-card nzTitle=" {{ difusion.Fecha | date : 'EEEE, MMMM d, y ' }} " style="width: 600px; max-height: min-content;" nzHoverable [nzCover]="coverTemplate" [nzLoading]="loading" [nzActions]="[actionSetting]" >
+        <nz-card-meta [nzTitle]="difusion.Tema.Tema" [nzDescription]="difusion.Tema.Descripcion"></nz-card-meta>
+      </nz-card>
+    
+    <ng-template #coverTemplate>
+        <nz-carousel [nzEffect]="effect" nzAutoPlay>
+            <div nz-carousel-content  *ngFor="let ev of evidencia">
+                <!-- <h3>{{ ev.Archivo}}</h3> -->
+                <img *ngIf="isImg(ev.TipoArchivo); else elseFile" nz-image [nzSrc]="ev.Archivo" alt="" ><img>
+                <ng-template #elseFile>
+                    <div nz-col style="align-items: center; text-align: center;">
+                        <a *ngIf="ev.Archivo" 
+                            [href]="ev.Archivo" target="_blank"
+                            nz-button nzSize="large" nzType="link">
+                            <img nz-image [nzSrc]="fallback" alt="Archivo">
+                        </a>
+                        <div class="centrado">
+                            Visible solo al descargar 
+                        </div>
+                    </div>
+                </ng-template>
+              </div>
+        </nz-carousel>
+        <!-- <div nz-row nzJustify="center" class="imgs" style="margin-top: 10px;">
+            <div nz-col [nzSpan]="spamSize[0]" *ngFor="let ev of evid1"  >
+                
+                <img *ngIf="isImg(ev.TipoArchivo); else elseFile" nz-image [nzSrc]="ev.Archivo" alt="" />
+                <ng-template #elseFile>
+                    <div nz-col style="align-items: center; text-align: center;">
+                        <a *ngIf="ev.Archivo" 
+                            [href]="ev.Archivo" target="_blank"
+                            nz-button nzSize="large" nzType="link">
+                            <img nz-image [nzSrc]="fallback" alt="Archivo">
+                        </a>
+                        <div class="centrado">
+                            Visible solo al descargar 
+                        </div>
+                    </div>
+                </ng-template>
+
+            </div>
+           
+            <div nz-row  nzJustify="center">
+                <div nz-col class="im" [nzSpan]="spamSize[1]" *ngFor="let ac of evid2" >
+                    <img nz-image *ngIf="isImg(ac.TipoArchivo); else elseFile2"  [nzSrc]="ac.Archivo" alt="" />
+                    <ng-template #elseFile2>
+                        <div nz-col style="align-items: center; text-align: center;">
+                            <a *ngIf="ac.Archivo" 
+                                [href]="ac.Archivo" target="_blank"
+                                nz-button nzSize="large" nzType="link">
+                                <img nz-image [nzSrc]="fallback" alt="Archivo">
+                            </a>
+                            <div class="centrado">
+                                Visible solo al descargar
+                            </div>
+                        </div>
+
+                    </ng-template>
+                </div>
+            </div>
+        </div> -->
+    </ng-template>
+    
+    <ng-template #actionSetting>
+        <i nz-icon nzType="delete" *ngIf="!isPublic" (click)="eliminar()" nzTheme="outline" nzTooltipTitle="Eliminar difusión" nzTooltipPlacement="top" nz-tooltip></i>
+    </ng-template>
+
+</div>
+

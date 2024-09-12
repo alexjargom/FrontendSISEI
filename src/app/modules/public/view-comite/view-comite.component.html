@@ -1,0 +1,26 @@
+<!-- <div nz-row nzJustify="center"> -->
+    <div class="inner-content" *ngIf="!loading">
+        <nz-table #basicTable nzOuterBordered nzShowSizeChanger [nzData]="info" [nzPageSize]="20" nzTitle="Integrantes del comite de etica."
+          [nzScroll]="innerWidth" [nzLoading]="loading" >
+          <thead>
+            <tr>
+              <th nzWidth="150px" nzCustomFilter>Nombre</th>
+              <th nzWidth="150px" >Primer Apellido</th>
+              <th nzWidth="150px">Segundo Apellido</th>
+              <th nzWidth="200px" >Cargo</th>
+              <th nzWidth="150px" >Fecha Actualización</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of basicTable.data">
+              <td>{{ data.Nombre }}</td>
+              <td>{{ data.PrimerApellido }} </td>
+              <td>{{ data.SegundoApellido }}</td>
+              <td>{{ data.Cargo.Basic.Nombre }} </td>
+              <td> {{ data.UpdatedAt | date : 'EEEE, MMMM d, y ' }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+    </div>
+
+<!-- </div> -->

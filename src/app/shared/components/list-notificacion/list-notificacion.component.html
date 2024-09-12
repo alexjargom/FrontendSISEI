@@ -1,0 +1,29 @@
+<div nz-row nzJustify="start">
+  <nz-select style="width: 500px; margin-bottom: 1rem;" nzShowSearch nzAllowClear nzPlaceHolder="Seleccione dependencia" [(ngModel)]="selectedValue" (ngModelChange)="cambioSelect($event)">
+    <nz-option nzLabel="Todos" nzValue=""></nz-option>
+    <nz-option *ngFor="let dep of deps" [nzLabel]="dep.Nombre" [nzValue]="dep.Id"></nz-option>
+  </nz-select>
+</div>
+<nz-table #basicTable nzOuterBordered nzShowSizeChanger [nzData]="data" [nzPageSize]="20"
+          [nzScroll]="innerWidth" [nzLoading]="loading" nzTitle="Cambios en la plataforma">
+
+  <thead>
+  <tr>
+    <th>Tema</th>
+    <th>Descripcción</th>
+    <th>Fecha</th>
+    <th>Usuario</th>
+  </tr>
+  </thead>
+
+
+  <tbody>
+  <tr *ngFor="let data of basicTable.data">
+    <td> {{ data.Tema.Tema }} </td>
+    <td> {{ data.Tema.Descripcion}} </td>
+    <td> {{ data.CreatedAt | date : 'EEEE, MMMM d, y ' }} </td>
+    <td> {{ data.Usuario?.Usuario }}</td>
+  </tr>
+  </tbody>
+
+</nz-table>

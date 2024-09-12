@@ -1,0 +1,91 @@
+<div nz-row nzJustify="center" *ngIf="!loading" style="margin-top: 2em; font-weight: 500;" >
+    <h3 class="bold">{{ Dependencia.Nombre }}</h3>
+</div>
+<div nz-row nzJustify="center" style="margin: 1rem 4rem 4rem 4rem; background: transparent;" *ngIf="!loading">
+    <nz-tabset>
+
+        <nz-tab nzTitle="COMITE DE ETICA" (nzClick)="cambioTab(1)">
+            <p class="bold">
+                COMITÉ DE ÉTICA Y DE PREVENCIÓN DE CONFLICTO DE INTERÉS DE LA {{ Dependencia.Nombre }}.
+            </p>
+            
+            <p style="font-weight: bold;">¿QUÉ ES EL COMITÉ DE ÉTICA?</p>
+
+            <p>Un órgano plural conformado por Servidoras y Servidores Públicos de los distintos niveles jerárquicos que integran las Dependencias, Entidades y Órganos Auxiliares de la Administración Pública de Oaxaca.
+            </p>
+
+            <p class="bold">OBJETIVO</p>
+            <p>Fomentar la ética y la integridad pública en Servidoras y Servidores Públicos, para lograr una mejora constante del clima y cultura organizacional de las Dependencias, Entidades y Órganos Auxiliares de la Administración Pública de Oaxaca, a través de la difusión de principios y valores del Código de Ética y del Código de Conducta, capacitaciones, identificación, pronunciamiento y seguimiento a las acciones de mejoras, y emisión de opiniones y recomendaciones.
+            </p>
+            <p class="bold">PROPÓSITO:</p>
+            <p>Promover la cultura de la ética e integridad pública en Servidoras y Servidores Públicos; la prevención y erradicación de la corrupción; con el fin de aumentar la confianza entre la sociedad y las Dependencias, Entidades y Órganos Auxiliares de la Administración Pública de Oaxaca.
+            </p>
+            <p class="bold">OBLIGACIONES:</p>
+            <ul>
+                <li>Desempeñar funciones y atribuciones con apego a los valores y las reglas de integridad.</li>
+                <li>Cumplir y promover el cumplimiento del Código de Ética, las Reglas de Integridad y el Código de Conducta.</li>
+                <li>Dar seguimiento a las denuncias.</li>
+            </ul>
+            <p class="bold">PRINCIPIOS Y CRITERIOS:</p>
+            <p>
+                En el desarrollo de sus funciones y en establecimiento de acciones de mejoras derivadas de los asuntos que impliquen la contravención del Código de Ética, actuaran con reserva y discreción, ajustando sus determinaciones a los principios del Código de Ética
+            </p>
+         
+            <app-view-comite  nzHoverable [general]='true' [info]='Comites' ></app-view-comite>
+        </nz-tab>
+
+        <nz-tab nzTitle="MARCO JURÍDICO">
+            <nz-collapse nzHoverable>
+                <nz-collapse-panel [nzActive]="true" nzHeader="Documentos" >
+                    <p>
+                        <a target="_blank"  [href]="pathReglasIntegridad">
+                            Acuerdo por el que se expide el código de ética para las personas servidoras públicas de la administración pública estatal.
+                        </a>
+                    </p>
+                    <p>
+                        <a target="_blank" [href]="pathLineamientos">
+                            Acuerdo por el que es expiden los lineamientos generales para la integración y funcionamiento de los comités de ética y de prevención de conflicto de interés  en la administración pública estatal.
+                        </a>
+                    </p>
+        
+                    <!-- <p>
+                        <a target="_blank"  [href]="pathCodigoEtica">
+                            Acuerdo por el que se expide el Código de Ética para Servidoras 
+                            y Servidores Públicos del Poder Ejecutivo del Estado de Oaxaca
+                        </a>
+                    </p> -->
+                </nz-collapse-panel>
+              </nz-collapse>            
+        </nz-tab>
+
+        <nz-tab nzTitle="DOCUMENTACIÓN" (nzClick)="cambioTab(3)">
+
+            <app-view-documentacion *ngIf="!loading && index==3" [general]='true' [data]='Documentacion' ></app-view-documentacion>
+
+        </nz-tab>
+
+        <nz-tab nzTitle="PROMOCIÓN Y DIFUSIÓN"(nzClick)="cambioTab(4)" >
+            <app-view-difusion nzHoverable *ngIf="index==4"></app-view-difusion>
+        </nz-tab>
+
+        <nz-tab nzTitle="BUZON DE QUEJAS Y DENUNCIAS" >
+            <div nz-row  nzJustify="center">
+                <img nz-image nzSrc="../../../../assets/images/queja.png" alt="image">
+            </div>
+            <div nz-row nzJustify="center" *ngIf="Buzon">
+                <label  for=""><i nz-icon nzType="phone" nzTheme="outline"></i>{{ Buzon.Telefono }} </label>
+                <label *ngIf="Buzon.Ext" for=""> Ext.{{ Buzon.Ext }} </label>
+            </div>
+            <div nz-row nzJustify="center" *ngIf="Buzon">
+                <label for=""><i nz-icon nzType="mail" nzTheme="outline"></i> {{ Buzon.Correo}}</label>
+            </div>
+            <div nz-row nzJustify="center" *ngIf="Buzon">
+                <label for=""><i nz-icon nzType="NombreConsejero" nzTheme="outline"></i>Persona consejera: {{ Buzon.NombreConsejero}}</label>
+            </div>
+            <div nz-row nzJustify="center" *ngIf="Buzon">
+                <label for=""><i nz-icon nzType="phone" nzTheme="outline"></i>{{ Buzon.TelefonoConsejero}}</label>
+            </div>
+        </nz-tab>
+
+    </nz-tabset>
+</div>
